@@ -19,10 +19,27 @@ const TaskSchema = new Schema({
       type: String,
     },
   ],
+  dateAdded: {
+    type: Date,
+    default: Date.now,
+  },
+  dueDate: {
+    type: Date,
+  },
   complete: {
     type: Boolean,
     default: false,
   },
 });
 
-export default mongoose.model('tasks', TaskSchema);
+interface Task extends mongoose.Document {
+  title: string;
+  description: string;
+  priority: string;
+  notes: string[];
+  dateAdded: Date;
+  dueDate: Date;
+  complete: boolean;
+}
+
+export default mongoose.model<Task>('tasks', TaskSchema);

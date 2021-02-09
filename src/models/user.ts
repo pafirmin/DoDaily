@@ -20,4 +20,11 @@ const UserSchema = new Schema({
   },
 });
 
-export default mongoose.model('user', UserSchema);
+interface User extends mongoose.Document {
+  email: string;
+  username: string;
+  password: string;
+  date: Date;
+}
+
+export default mongoose.model<User>('user', UserSchema);
