@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
+import { NoteDoc } from './Note';
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
+  folder: {
+    type: mongoose.Types.ObjectId,
+    ref: 'folder',
+  },
   title: {
     type: String,
     required: true,
@@ -16,7 +21,8 @@ const TaskSchema = new Schema({
   },
   notes: [
     {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: 'task',
     },
   ],
   dateAdded: {
@@ -32,14 +38,15 @@ const TaskSchema = new Schema({
   },
 });
 
-interface Task extends mongoose.Document {
+export interface TaskDoc extends mongoose.Document {
+  folder: mongoose.Types.ObjectId;
   title: string;
   description: string;
   priority: string;
-  notes: string[];
+  notes: NoteDoc[];
   dateAdded: Date;
   dueDate: Date;
   complete: boolean;
 }
 
-export default mongoose.model<Task>('tasks', TaskSchema);
+export default mongoose.model<TaskDoc>('tasks', TaskSchema);

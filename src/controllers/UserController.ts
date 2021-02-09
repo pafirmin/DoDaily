@@ -1,4 +1,4 @@
-import User from '../models/user';
+import User, { UserDoc } from '../models/User';
 import { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
@@ -21,37 +21,35 @@ const newUser = [
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       const { username, email, password } = req.body;
-      let user = await User.findOne({ email: email });
 
+      let user: UserDoc | null = await User.findOne({ email: email });
       if (user) {
         return res.status(400).json({ msg: 'Email already in use' });
       }
 
       user = new User({ username, email, password });
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-
+      const salt: string = await bcrypt.genSalt(10);
+      const hashedPassword: string = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
 
       await user.save();
 
-      let userToken;
-      const secret = process.env.JWT_SECRET;
       const payload = {
         user: {
           id: user._id,
         },
       };
 
-      if (secret) {
-        userToken = jwt.sign(payload, secret, { expiresIn: 300000 });
-      } else {
+      const secret = process.env.JWT_SECRET;
+      if (!secret) {
         throw 'JWT secret is undefined';
       }
+      let userToken: string = jwt.sign(payload, secret, {
+        expiresIn: 300000,
+      });
 
       return res.json(userToken);
     } catch (err) {

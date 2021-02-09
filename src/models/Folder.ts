@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { NoteDoc } from './Note';
 const Schema = mongoose.Schema;
 
 const FolderSchema = new Schema({
@@ -6,15 +7,10 @@ const FolderSchema = new Schema({
     type: String,
     Required: true,
   },
-  tasks: [
+  notes: [
     {
       type: mongoose.Types.ObjectId,
       ref: 'task',
-    },
-  ],
-  notes: [
-    {
-      type: String,
     },
   ],
   creator: {
@@ -35,16 +31,16 @@ const FolderSchema = new Schema({
   ],
 });
 
-interface FolderUser {
+export interface FolderUser {
   user: mongoose.Types.ObjectId;
   isAdmin: Boolean;
 }
 
-interface Folder extends mongoose.Document {
+export interface FolderDoc extends mongoose.Document {
+  creator: mongoose.Types.ObjectId;
   name: string;
-  tasks: mongoose.Types.ObjectId[];
-  notes: string[];
+  notes: NoteDoc[];
   users: FolderUser[];
 }
 
-export default mongoose.model<Folder>('folder', FolderSchema);
+export default mongoose.model<FolderDoc>('folder', FolderSchema);
