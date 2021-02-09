@@ -2,17 +2,20 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "Todo list application",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "server": "ts-node-dev server.ts",
-    "lint": "eslint --ext .ts"
+    "server": "ts-node-dev ./src/server.ts",
+    "lint": "eslint --ext .ts",
+    "start": "node build/server.js"
   },
   "author": "Paul Firmin",
   "license": "ISC",
   "dependencies": {
+    "D": "^1.0.0",
     "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.9.2",
     "jsonwebtoken": "^8.5.1",
