@@ -14,6 +14,12 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  folders: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'folder',
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,
@@ -24,6 +30,7 @@ export interface UserDoc extends mongoose.Document {
   email: string;
   username: string;
   password: string;
+  folders: mongoose.Types.ObjectId[];
   date: Date;
 }
 

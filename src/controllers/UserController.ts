@@ -1,4 +1,4 @@
-import User, { UserDoc } from '../models/User';
+import User from '../models/User';
 import { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
@@ -24,7 +24,7 @@ const newUser = [
     try {
       const { username, email, password } = req.body;
 
-      let user: UserDoc | null = await User.findOne({ email: email });
+      let user = await User.findOne({ email: email });
       if (user) {
         return res.status(400).json({ msg: 'Email already in use' });
       }

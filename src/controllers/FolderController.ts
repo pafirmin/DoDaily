@@ -1,20 +1,22 @@
 import { Request, Response } from 'express';
-import { check, validationResult, Result } from 'express-validator';
+import { check, validationResult } from 'express-validator';
+import mongoose from 'mongoose';
 import auth from '../middleware/auth';
-import Folder, { FolderUser, FolderDoc } from '../models/Folder';
-import User, { UserDoc } from '../models/User';
-import Task, { TaskDoc } from '../models/Task';
+import Folder from '../models/Folder';
+import User from '../models/User';
+import Task from '../models/Task';
 
-// Get users folders
+// Get user's folders
 const getFolders = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const folders: FolderDoc[] = await Folder.find({
-        users: { $elemMatch: { _id: req.params.id } },
-      });
+      const user = await User.findById(req.params.id).populate('projects');
 
-      return res.json(folders);
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+      return res.json(user.folders);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });
@@ -27,7 +29,7 @@ const getTasks = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const tasks: TaskDoc[] = await Task.find({ folder: req.params.id });
+      const tasks = await Task.find({ folder: req.params.id });
 
       return res.json(tasks);
     } catch (err) {
@@ -45,24 +47,22 @@ const newFolder = [
     .not()
     .isEmpty(),
   async (req: Request, res: Response) => {
-    const errors: Result = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.array());
     }
 
     try {
-      const user: UserDoc | null = await User.findById(req.user.id).select(
-        '-password'
-      );
+      const user = await User.findById(req.user.id).select('-password');
 
       if (!user) {
         throw new Error('Invalid user');
       }
 
-      const name: string = req.body.name;
+      const name = req.body.name;
 
-      let folder: FolderDoc | null = await Folder.findOne({ name: name });
+      let folder = await Folder.findOne({ name: name });
 
       if (folder) {
         return res.status(400).json('Folder already exists by that name');
@@ -70,7 +70,6 @@ const newFolder = [
 
       folder = new Folder({ name, creator: user });
       folder.creator = user._id;
-      folder.users.push({ user: user._id, isAdmin: true });
 
       await folder.save();
 
@@ -87,19 +86,19 @@ const deleteFolder = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const folder: FolderDoc | null = await Folder.findById(req.params.id);
+      const folder = await Folder.findById(req.params.id);
 
       if (!folder) {
         return res.status(404).json({ msg: 'Folder not found' });
       }
 
-      const user: FolderUser | undefined = folder.users.find(
-        user => user === req.user.id
-      );
-
-      if (!user?.isAdmin) {
+      if (!folder.creator !== req.user.id) {
         return res.status(401).json({ msg: '401: Forbidden' });
       }
+
+      await User.findByIdAndUpdate(req.user.id, {
+        $pull: { folders: mongoose.Types.ObjectId(req.params.id) },
+      });
 
       return await folder.delete();
     } catch (err) {

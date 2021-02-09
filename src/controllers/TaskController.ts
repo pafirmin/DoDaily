@@ -1,8 +1,22 @@
-import Folder from '../models/Folder';
 import Task, { TaskDoc } from '../models/Task';
 import { Request, Response } from 'express';
 import { check, validationResult, Result } from 'express-validator';
 import auth from '../middleware/auth';
+
+// Get all user's tasks
+const getAll = [
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const tasks = Task.find({ user: req.user.id });
+
+      return res.json(tasks);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ msg: '500: Server error' });
+    }
+  },
+];
 
 // Make new task
 const newTask = [
@@ -17,7 +31,7 @@ const newTask = [
       const { title, description, priority, dueDate } = req.body;
 
       const task: TaskDoc = new Task({
-        folder: req.params.id,
+        folder: req.params.folderId,
         title,
         description,
         priority,
@@ -40,15 +54,18 @@ const deleteTask = [
   async (req: Request, res: Response) => {
     try {
       const task = await Task.findById(req.params.id);
-      const folder = await Folder.findById(task?.folder);
 
-      if (!folder?.users.find(user => user === req.user.id)?.isAdmin) {
+      if (!task) {
+        return res.status(404).json({ msg: 'Specified task does not exist' });
+      }
+
+      if (task.user !== req.user.id) {
         return res
           .status(401)
           .json({ msg: 'You do not have permission to delete this item' });
       }
 
-      return await folder.delete();
+      return await task.delete();
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: '500: Server error' });
@@ -79,4 +96,28 @@ const markAsDone = [
   },
 ];
 
-export default { newTask, deleteTask, markAsDone };
+// Add note to task
+const addNote = [
+  auth,
+  check('text', 'Note cannot be empty').trim().not().isEmpty(),
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array());
+    }
+
+    try {
+      const task = Task.findByIdAndUpdate(req.params.id, {
+        $push: { notes: { text: req.body.text } },
+      });
+
+      return res.json(task);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ msg: '500: Server error' });
+    }
+  },
+];
+
+export default { newTask, deleteTask, markAsDone, addNote, getAll };
