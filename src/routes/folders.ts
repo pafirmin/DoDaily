@@ -15,4 +15,7 @@ router.post('/', FolderController.newFolder);
 // Delete folder
 router.delete('/:id', FolderController.deleteFolder);
 
+// Rename folder
+router.patch('/:id', FolderController.renameFolder);
+
 export default router;

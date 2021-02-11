@@ -5,6 +5,7 @@ export const TOGGLE_DONE = 'TOGGLE_DONE';
 export const CHANGE_PRIORITY = 'CHANGE_PRIORITY';
 export const DELETE_TASK = 'DELETE_TASK';
 export const ADD_NOTE = 'ADD_NOTE';
+export const DELETE_NOTE = 'DELETE_NOTE';
 
 // Auth actions
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';

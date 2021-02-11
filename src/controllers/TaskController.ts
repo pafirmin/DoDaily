@@ -1,4 +1,5 @@
 import Task, { TaskDoc } from '../models/Task';
+import Folder from '../models/Folder';
 import { Request, Response } from 'express';
 import { check, validationResult, Result } from 'express-validator';
 import auth from '../middleware/auth';
@@ -30,8 +31,18 @@ const newTask = [
     try {
       const { title, description, priority, dueDate } = req.body;
 
+      const folder = await Folder.findById(req.params.folderId);
+
+      if (!folder) {
+        return res.status(400);
+      }
+      if (folder.creator.toString() !== req.user.id) {
+        return res.status(401);
+      }
+
       const task: TaskDoc = new Task({
-        folder: req.params.folderId,
+        user: req.user.id,
+        folder: folder._id,
         title,
         description,
         priority,
@@ -59,7 +70,7 @@ const deleteTask = [
         return res.status(404).json({ msg: 'Specified task does not exist' });
       }
 
-      if (task.user !== req.user.id) {
+      if (task.user.toString() !== req.user.id) {
         return res
           .status(401)
           .json({ msg: 'You do not have permission to delete this item' });
@@ -83,6 +94,11 @@ const markAsDone = [
       if (!task) {
         return res.status(404).json({ msg: 'Task not found' });
       }
+      if (task.user.toString() !== req.user.id) {
+        return res
+          .status(401)
+          .json('You do not have permission to access this task');
+      }
 
       task.complete = !task.complete;
 
@@ -99,7 +115,7 @@ const markAsDone = [
 // Add note to task
 const addNote = [
   auth,
-  check('text', 'Note cannot be empty').trim().not().isEmpty(),
+  check('noteText', 'Note cannot be empty').trim().not().isEmpty(),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
@@ -108,9 +124,20 @@ const addNote = [
     }
 
     try {
-      const task = Task.findByIdAndUpdate(req.params.id, {
-        $push: { notes: { text: req.body.text } },
-      });
+      const task = await Task.findById(req.params.id);
+
+      if (!task) {
+        return res.status(404).json({ msg: 'Task not found' });
+      }
+      if (task.user.toString() !== req.user.id) {
+        return res
+          .status(401)
+          .json('You do not have permission to add a note to this task');
+      }
+
+      task.notes.push({ text: req.body.noteText });
+
+      await task.save();
 
       return res.json(task);
     } catch (err) {
@@ -120,4 +147,65 @@ const addNote = [
   },
 ];
 
-export default { newTask, deleteTask, markAsDone, addNote, getAll };
+//Delete note from task
+const deleteNote = [
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const task = await Task.findById(req.params.taskID);
+
+      if (!task) {
+        return res.status(404);
+      }
+
+      if (task.user.toString() !== req.user.id) {
+        return res.status(401);
+      }
+
+      task.notes = task.notes.filter(note => note._id !== req.params.noteID);
+
+      await task.save();
+
+      return res.json(task);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ msg: '500: Server error' });
+    }
+  },
+];
+
+const changePriority = [
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const task = await Task.findById(req.params.id);
+
+      if (!task) {
+        return res.status(404).json({ msg: 'Task not found' });
+      }
+      if (task.user.toString() !== req.user.id) {
+        return res
+          .status(401)
+          .json('You do not have permission to modify this task');
+      }
+
+      task.priority = req.body.priority;
+
+      await task.save();
+
+      return res.json(task);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ msg: '500: Server error' });
+    }
+  },
+];
+export default {
+  newTask,
+  deleteTask,
+  markAsDone,
+  addNote,
+  getAll,
+  deleteNote,
+  changePriority,
+};

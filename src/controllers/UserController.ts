@@ -51,7 +51,7 @@ const newUser = [
         expiresIn: 300000,
       });
 
-      return res.json(userToken);
+      return res.json({ token: userToken });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });

@@ -35,7 +35,7 @@ export const login = userCredentials => async dispatch => {
   } catch (err) {
     console.error(err);
     dispatch({
-      type: LOGIN_FAIL,
+      type: 'LOGIN_FAIL',
     });
   }
 };

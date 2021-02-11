@@ -15,10 +15,10 @@ app.use(express.json());
 
 connectDB();
 
+app.use('/api/auth', AuthRouter);
 app.use('/api/users', UserRouter);
 app.use('/api/folders', FolderRouter);
 app.use('/api/tasks', TaskRouter);
-app.use('api/auth', AuthRouter);
 
 const PORT = 5000;
 app.listen(PORT, () => {

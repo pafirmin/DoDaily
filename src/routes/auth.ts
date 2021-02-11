@@ -1,5 +1,6 @@
 import AuthController from '../controllers/AuthController';
-import router from './users';
+import express from 'express';
+const router = express.Router();
 
 router.post('/', AuthController.logIn);
 

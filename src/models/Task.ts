@@ -47,6 +47,7 @@ const TaskSchema = new Schema({
 });
 
 interface TaskNote {
+  _id?: string;
   text: string;
   date?: Date;
 }

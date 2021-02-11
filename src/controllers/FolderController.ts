@@ -11,11 +11,12 @@ const getFolders = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const user = await User.findById(req.params.id).populate('projects');
+      const user = await User.findById(req.user.id).populate('folders');
 
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
       }
+
       return res.json(user.folders);
     } catch (err) {
       console.error(err);
@@ -29,7 +30,10 @@ const getTasks = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const tasks = await Task.find({ folder: req.params.id });
+      const tasks = await Task.find({
+        folder: req.params.id,
+        user: req.user.id,
+      });
 
       return res.json(tasks);
     } catch (err) {
@@ -54,24 +58,23 @@ const newFolder = [
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
-
-      if (!user) {
-        throw new Error('Invalid user');
-      }
-
       const name = req.body.name;
 
-      let folder = await Folder.findOne({ name: name });
+      let folder = await Folder.findOne({ name: name, creator: req.user.id });
 
       if (folder) {
         return res.status(400).json('Folder already exists by that name');
       }
 
-      folder = new Folder({ name, creator: user });
-      folder.creator = user._id;
+      folder = new Folder({ name, creator: req.user.id });
 
       await folder.save();
+
+      await User.findByIdAndUpdate(
+        req.user.id,
+        { $push: { folders: folder._id } },
+        { new: true }
+      );
 
       return res.json(folder);
     } catch (err) {
@@ -92,7 +95,9 @@ const deleteFolder = [
         return res.status(404).json({ msg: 'Folder not found' });
       }
 
-      if (!folder.creator !== req.user.id) {
+      if (folder.creator.toString() !== req.user.id) {
+        console.log(folder.creator, req.user.id);
+
         return res.status(401).json({ msg: '401: Forbidden' });
       }
 
@@ -100,7 +105,9 @@ const deleteFolder = [
         $pull: { folders: mongoose.Types.ObjectId(req.params.id) },
       });
 
-      return await folder.delete();
+      await folder.delete();
+
+      return res.json({ msg: 'Folder deleted' });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });
@@ -108,4 +115,29 @@ const deleteFolder = [
   },
 ];
 
-export default { newFolder, deleteFolder, getFolders, getTasks };
+// Rename a folder
+const renameFolder = [
+  auth,
+  check('name', 'Folder name cannot be blank').trim().not().isEmpty(),
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.json(errors.array());
+    }
+    try {
+      const folder = await Folder.findOneAndUpdate(
+        { _id: req.params.id, creator: req.user.id },
+        {
+          name: req.body.name,
+        }
+      );
+
+      res.json(folder);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: 'Server error' });
+    }
+  },
+];
+
+export default { newFolder, deleteFolder, getFolders, renameFolder, getTasks };
