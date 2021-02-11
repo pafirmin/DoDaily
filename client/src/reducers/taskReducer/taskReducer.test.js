@@ -1,4 +1,12 @@
 import taskReducer from './taskReducer';
+import {
+  GET_TASKS,
+  NEW_TASK,
+  TOGGLE_DONE,
+  CHANGE_PRIORITY,
+  DELETE_TASK,
+  ADD_NOTE,
+} from '../../actions/types';
 
 describe('Task Reducer', () => {
   const state = [
@@ -20,7 +28,7 @@ describe('Task Reducer', () => {
 
   it('Initializes state on GET_TASKS', () => {
     const action = {
-      type: 'GET_TASKS',
+      type: GET_TASKS,
       data: state,
     };
 
@@ -32,7 +40,7 @@ describe('Task Reducer', () => {
 
   it('Returns updated state on NEW_TASK action', () => {
     const action = {
-      type: 'NEW_TASK',
+      type: NEW_TASK,
       data: {
         title: 'test',
       },
@@ -45,7 +53,7 @@ describe('Task Reducer', () => {
 
   it('Toggles done status of a task on TOGGLE_DONE', () => {
     const action = {
-      type: 'TOGGLE_DONE',
+      type: TOGGLE_DONE,
       data: {
         _id: '1',
       },
@@ -59,7 +67,7 @@ describe('Task Reducer', () => {
 
   it('Changes priority of a task on CHANGE_PRIORITY', () => {
     const action = {
-      type: 'CHANGE_PRIORITY',
+      type: CHANGE_PRIORITY,
       data: {
         _id: '1',
         priority: 'MEDIUM',
@@ -75,7 +83,7 @@ describe('Task Reducer', () => {
 
   it('Deletes a task on DELETE_TASK', () => {
     const action = {
-      type: 'DELETE_TASK',
+      type: DELETE_TASK,
       data: {
         _id: '1',
       },
@@ -89,7 +97,7 @@ describe('Task Reducer', () => {
 
   it('Adds a note to a task on ADD_NOTE', () => {
     const action = {
-      type: 'ADD_NOTE',
+      type: ADD_NOTE,
       data: {
         _id: '1',
         notes: ['test'],

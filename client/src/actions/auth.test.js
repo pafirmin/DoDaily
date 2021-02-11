@@ -2,6 +2,7 @@ import axios from '../axios';
 import * as auth from './auth';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { REGISTER_SUCCESS, LOGIN_SUCCESS, LOGOUT } from '../actions/types';
 
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
@@ -14,7 +15,7 @@ describe('Register action', () => {
     axios.post.mockResolvedValue(mockRes);
 
     const expectedAction = {
-      type: 'REGISTER_SUCCESS',
+      type: REGISTER_SUCCESS,
       data: mockRes.data,
     };
 
@@ -31,7 +32,7 @@ describe('Login action', () => {
     axios.post.mockResolvedValue(mockRes);
 
     const expectedAction = {
-      type: 'LOGIN_SUCCESS',
+      type: LOGIN_SUCCESS,
       data: mockRes.data,
     };
 
@@ -46,7 +47,7 @@ describe('Login action', () => {
 describe('Logout action', () => {
   it('Returns a LOGOUT action', () => {
     const expectedAction = {
-      type: 'LOGOUT',
+      type: LOGOUT,
     };
     expect(auth.logout()).toEqual(expectedAction);
   });

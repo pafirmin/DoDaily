@@ -1,4 +1,10 @@
 import folderReducer from './folderReducer';
+import {
+  GET_FOLDERS,
+  NEW_FOLDER,
+  RENAME_FOLDER,
+  DELETE_FOLDER,
+} from '../../actions/types';
 
 describe('Folder Reducer', () => {
   const state = [
@@ -14,7 +20,7 @@ describe('Folder Reducer', () => {
 
   it('Initializes state on GET_FOLDERS', () => {
     const action = {
-      type: 'GET_FOLDERS',
+      type: GET_FOLDERS,
       data: state,
     };
 
@@ -26,7 +32,7 @@ describe('Folder Reducer', () => {
 
   it('Returns new state on NEW_FOLDER action', () => {
     const action = {
-      type: 'NEW_FOLDER',
+      type: NEW_FOLDER,
       data: {
         name: 'Test folder 3',
         _id: '3',
@@ -40,7 +46,7 @@ describe('Folder Reducer', () => {
 
   it('Removes folder from state on DELETE_FOLDER action', () => {
     const action = {
-      type: 'DELETE_FOLDER',
+      type: DELETE_FOLDER,
       data: {
         _id: '1',
       },
@@ -53,7 +59,7 @@ describe('Folder Reducer', () => {
 
   it('Renames folder on RENAME_FOLDER action', () => {
     const action = {
-      type: 'RENAME_FOLDER',
+      type: RENAME_FOLDER,
       data: {
         _id: '1',
         name: 'Test folder renamed',

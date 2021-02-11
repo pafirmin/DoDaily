@@ -1,4 +1,9 @@
-import axios from '../../axios';
+import {
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGOUT,
+} from '../../actions/types';
 
 const initialState = {
   token: localStorage.getItem('jwt'),
@@ -8,25 +13,25 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   const { type, data } = action;
   switch (type) {
-    case 'REGISTER_SUCCESS':
+    case REGISTER_SUCCESS:
       localStorage.setItem('jwt', data.token);
       return {
         token: data.token,
         isAuthenticated: true,
       };
-    case 'REGISTER_FAIL':
+    case REGISTER_FAIL:
       localStorage.removeItem('jwt');
       return {
         token: null,
         isAuthenticated: false,
       };
-    case 'LOGIN_SUCCESS':
+    case LOGIN_SUCCESS:
       localStorage.setItem('jwt', data.token);
       return {
         token: data.token,
         isAuthenticated: true,
       };
-    case 'LOGOUT':
+    case LOGOUT:
       localStorage.removeItem('jwt');
       return {
         token: null,

@@ -1,4 +1,10 @@
 import axios from '../axios';
+import {
+  GET_FOLDERS,
+  NEW_FOLDER,
+  RENAME_FOLDER,
+  DELETE_FOLDER,
+} from '../actions/types';
 
 export const newFolder = folderData => async dispatch => {
   try {
@@ -6,7 +12,7 @@ export const newFolder = folderData => async dispatch => {
     const res = await axios.post('/api/folders', data);
 
     dispatch({
-      type: 'NEW_FOLDER',
+      type: NEW_FOLDER,
       data: res.data,
     });
   } catch (err) {
@@ -20,7 +26,7 @@ export const deleteFolder = folder => async dispatch => {
     await axios.delete(`/api/folders/${folder._id}`);
 
     dispatch({
-      type: 'DELETE_FOLDER',
+      type: DELETE_FOLDER,
     });
   } catch (err) {
     console.error(err);
@@ -34,7 +40,7 @@ export const getFolders = () => async dispatch => {
     const res = await axios.get('/api/folders');
 
     dispatch({
-      type: 'GET_FOLDERS',
+      type: GET_FOLDERS,
       data: res.data,
     });
   } catch (err) {
@@ -50,7 +56,7 @@ export const renameFolder = (newName, folder) => async dispatch => {
     const res = await axios.patch(`/api/folders/${folder._id}`, body);
 
     dispatch({
-      type: 'RENAME_FOLDER',
+      type: RENAME_FOLDER,
       data: res.data,
     });
   } catch (err) {

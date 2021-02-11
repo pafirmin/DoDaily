@@ -1,4 +1,5 @@
 import authReducer from './authReducer';
+import { REGISTER_SUCCESS, LOGIN_SUCCESS, LOGOUT } from '../../actions/types';
 
 describe('Auth Reducer', () => {
   afterEach(() => {
@@ -7,7 +8,7 @@ describe('Auth Reducer', () => {
 
   it('Sets token and authenticates user on registration success', () => {
     const action = {
-      type: 'REGISTER_SUCCESS',
+      type: REGISTER_SUCCESS,
       data: {
         token: 'test',
       },
@@ -20,7 +21,7 @@ describe('Auth Reducer', () => {
 
   it('Sets token and authenticates user on login', () => {
     const action = {
-      type: 'LOGIN_SUCCESS',
+      type: LOGIN_SUCCESS,
       data: {
         token: 'test',
       },
@@ -37,7 +38,7 @@ describe('Auth Reducer', () => {
       token: 'test',
       isAuthenticated: true,
     };
-    const action = { type: 'LOGOUT' };
+    const action = { type: LOGOUT };
 
     const newState = authReducer(state, action);
 

@@ -2,6 +2,12 @@ import axios from '../axios';
 import * as folders from './folders';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import {
+  GET_FOLDERS,
+  NEW_FOLDER,
+  RENAME_FOLDER,
+  DELETE_FOLDER,
+} from '../actions/types';
 
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
@@ -14,7 +20,7 @@ describe('New folder action', () => {
     axios.post.mockResolvedValue(mockRes);
 
     const expectedAction = {
-      type: 'NEW_FOLDER',
+      type: NEW_FOLDER,
       data: mockRes.data,
     };
 
@@ -29,7 +35,7 @@ describe('Delete folder action', () => {
     axios.delete.mockResolvedValue('deleted');
 
     const expectedAction = {
-      type: 'DELETE_FOLDER',
+      type: DELETE_FOLDER,
     };
 
     await store.dispatch(folders.deleteFolder(mockReq));
@@ -43,7 +49,7 @@ describe('Get folder action', () => {
     axios.get.mockResolvedValue(mockRes);
 
     const expectedAction = {
-      type: 'GET_FOLDERS',
+      type: GET_FOLDERS,
       data: mockRes.data,
     };
 
@@ -58,7 +64,7 @@ describe('Rename folder action', () => {
     axios.patch.mockResolvedValue(mockRes);
 
     const expectedAction = {
-      type: 'RENAME_FOLDER',
+      type: RENAME_FOLDER,
       data: mockRes.data,
     };
 

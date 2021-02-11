@@ -1,4 +1,10 @@
 import axios from '../axios';
+import {
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGOUT,
+} from '../actions/types';
 
 export const register = userData => async dispatch => {
   try {
@@ -6,13 +12,13 @@ export const register = userData => async dispatch => {
     const res = await axios.post('/api/users', data);
 
     dispatch({
-      type: 'REGISTER_SUCCESS',
+      type: REGISTER_SUCCESS,
       data: res.data,
     });
   } catch (err) {
     console.error(err);
     dispatch({
-      type: 'REGISTER_FAIL',
+      type: REGISTER_FAIL,
     });
   }
 };
@@ -23,19 +29,19 @@ export const login = userCredentials => async dispatch => {
     const res = await axios.post('/api/auth', data);
 
     dispatch({
-      type: 'LOGIN_SUCCESS',
+      type: LOGIN_SUCCESS,
       data: res.data,
     });
   } catch (err) {
     console.error(err);
     dispatch({
-      type: 'LOGIN_FAIL',
+      type: LOGIN_FAIL,
     });
   }
 };
 
 export const logout = () => {
   return {
-    type: 'LOGOUT',
+    type: LOGOUT,
   };
 };
