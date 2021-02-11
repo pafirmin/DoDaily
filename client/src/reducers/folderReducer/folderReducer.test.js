@@ -50,4 +50,19 @@ describe('Folder Reducer', () => {
 
     expect(newState).toHaveLength(1);
   });
+
+  it('Renames folder on RENAME_FOLDER action', () => {
+    const action = {
+      type: 'RENAME_FOLDER',
+      data: {
+        _id: '1',
+        name: 'Test folder renamed',
+      },
+    };
+
+    const newState = folderReducer(state, action);
+
+    expect(newState).toContainEqual(action.data);
+    expect(newState).toHaveLength(2);
+  });
 });

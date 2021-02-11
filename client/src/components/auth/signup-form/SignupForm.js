@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../shared';
-import { register } from '../../../reducers/authReducer/authReducer';
+import { register } from '../../../actions/auth/auth';
 
 const SignupForm = () => {
   const dispatch = useDispatch();

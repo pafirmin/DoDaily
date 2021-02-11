@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
     case 'REGISTER_SUCCESS':
       localStorage.setItem('jwt', data.token);
       return {
-        token: data,
+        token: data.token,
         isAuthenticated: true,
       };
     case 'REGISTER_FAIL':
@@ -20,25 +20,20 @@ const authReducer = (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
       };
+    case 'LOGIN_SUCCESS':
+      localStorage.setItem('jwt', data.token);
+      return {
+        token: data.token,
+        isAuthenticated: true,
+      };
+    case 'LOGOUT':
+      localStorage.removeItem('jwt');
+      return {
+        token: null,
+        isAuthenticated: false,
+      };
     default:
       return state;
-  }
-};
-
-export const register = userData => async dispatch => {
-  try {
-    const data = JSON.stringify(userData);
-
-    const res = await axios.post('/api/users', data);
-
-    dispatch({
-      type: 'REGISTER_SUCCESS',
-      data: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: 'REGISTER_FAIL',
-    });
   }
 };
 
