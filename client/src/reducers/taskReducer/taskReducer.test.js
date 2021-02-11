@@ -52,7 +52,9 @@ describe('Task Reducer', () => {
     };
     const newState = taskReducer(state, action);
 
-    expect(newState.find(task => task._id === '1').complete).toBe(true);
+    expect(newState.find(task => task._id === action.data._id).complete).toBe(
+      true
+    );
   });
 
   it('Changes priority of a task on CHANGE_PRIORITY', () => {
@@ -65,7 +67,10 @@ describe('Task Reducer', () => {
     };
     const newState = taskReducer(state, action);
 
-    expect(newState.find(task => task._id === '1').priority).toBe('MEDIUM');
+    expect(newState).toHaveLength(state.length);
+    expect(newState.find(task => task._id === action.data._id).priority).toBe(
+      'MEDIUM'
+    );
   });
 
   it('Deletes a task on DELETE_TASK', () => {
@@ -78,7 +83,21 @@ describe('Task Reducer', () => {
 
     const newState = taskReducer(state, action);
 
-    expect(newState).toHaveLength(1);
+    expect(newState).toHaveLength(state.length - 1);
     expect(newState).not.toContainEqual(state[0]);
+  });
+
+  it('Adds a note to a task on ADD_NOTE', () => {
+    const action = {
+      type: 'ADD_NOTE',
+      data: {
+        _id: '1',
+        notes: ['test'],
+      },
+    };
+    const newState = taskReducer(state, action);
+
+    expect(newState).toHaveLength(state.length);
+    expect(newState).toContainEqual(action.data);
   });
 });

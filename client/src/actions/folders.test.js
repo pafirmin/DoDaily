@@ -1,9 +1,9 @@
-import axios from '../../axios';
+import axios from '../axios';
 import * as folders from './folders';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
-jest.mock('../../axios');
+jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
 const mockReq = { name: 'Some folder', _id: '1' };
 const mockRes = { data: { foo: 'bar' } };

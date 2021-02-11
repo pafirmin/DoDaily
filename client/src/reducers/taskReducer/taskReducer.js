@@ -17,6 +17,8 @@ const taskReducer = (state = initialState, action) => {
       );
     case 'DELETE_TASK':
       return state.filter(task => task._id !== data._id);
+    case 'ADD_NOTE':
+      return state.map(task => (task._id === action.data._id ? data : task));
     default:
       return state;
   }

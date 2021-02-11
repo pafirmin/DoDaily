@@ -1,9 +1,9 @@
-import axios from '../../axios';
+import axios from '../axios';
 import * as auth from './auth';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 
-jest.mock('../../axios');
+jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
 const mockRes = { data: { token: 'dummyToken' } };
 const mockReq = { email: 'test@test.com', password: 'test' };
