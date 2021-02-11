@@ -12,7 +12,7 @@ describe('Folder Reducer', () => {
     },
   ];
 
-  it('Initializes state on INIT_FOLDERS', () => {
+  it('Initializes state on GET_FOLDERS', () => {
     const action = {
       type: 'GET_FOLDERS',
       data: state,

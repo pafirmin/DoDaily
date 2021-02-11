@@ -9,7 +9,8 @@ const App = () => {
   return (
     <Fragment>
       <h1>Todo List</h1>
-      {isAuthenticated ? <div className="test" /> : <LoginForm />}
+      <SignupForm />
+      {isAuthenticated ? <div className="test">Hello</div> : <LoginForm />}
     </Fragment>
   );
 };

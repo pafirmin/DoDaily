@@ -33,7 +33,7 @@ const SignupForm = () => {
         </label>
         <label htmlFor="password">
           Choose a secure password:
-          <input type="password" name="email" onChange={handleChange} />
+          <input type="password" name="password" onChange={handleChange} />
         </label>
         <Button>Create Account</Button>
       </form>

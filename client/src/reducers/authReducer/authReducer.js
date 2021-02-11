@@ -25,20 +25,20 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const register = async userData => {
+export const register = userData => async dispatch => {
   try {
     const data = JSON.stringify(userData);
 
     const res = await axios.post('/api/users', data);
 
-    return {
+    dispatch({
       type: 'REGISTER_SUCCESS',
       data: res.data,
-    };
+    });
   } catch (err) {
-    return {
+    dispatch({
       type: 'REGISTER_FAIL',
-    };
+    });
   }
 };
 
