@@ -9,7 +9,7 @@ const logIn = [
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json(errors.array());
+      return res.status(400).json(errors.array());
     }
     try {
       const { email, password } = req.body;
@@ -19,6 +19,7 @@ const logIn = [
       if (!user) {
         return res
           .status(400)
+          .json()
           .json({ msg: 'No user found with that email address' });
       }
 
@@ -34,16 +35,27 @@ const logIn = [
         },
       };
 
-      const secret = process.env.JWT_SECRET;
+      const secret: string | undefined = process.env.JWT_SECRET;
       if (!secret) {
         throw 'JWT secret is undefined';
       }
 
-      let userToken: string = jwt.sign(payload, secret, {
-        expiresIn: 300000,
+      const accessToken: string = jwt.sign(payload, secret, {
+        expiresIn: '15m',
       });
 
-      return res.json(userToken);
+      const refreshToken: string = jwt.sign(payload, secret, {
+        expiresIn: '7d',
+      });
+
+      return res
+        .cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          sameSite: false,
+          secure: true,
+        })
+        .json(accessToken);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });
@@ -51,4 +63,39 @@ const logIn = [
   },
 ];
 
-export default { logIn };
+const refreshToken = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies['refreshToken'];
+    if (!token) {
+      console.log('hello');
+      return;
+    }
+    const secret: string | undefined = process.env.JWT_SECRET;
+    if (!secret) {
+      throw 'JWT secret is undefined';
+    }
+
+    const decoded: any = jwt.verify(token, secret);
+
+    const accessToken: string = jwt.sign(decoded.user, secret, {
+      expiresIn: '15m',
+    });
+
+    return res.json(accessToken);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+const logout = async (_req: Request, res: Response) => {
+  try {
+    return res
+      .clearCookie('refreshToken', { sameSite: false, secure: true })
+      .json();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: 'Server error' });
+  }
+};
+export default { logIn, refreshToken, logout };

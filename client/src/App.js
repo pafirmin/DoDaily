@@ -1,16 +1,22 @@
-import React, { Fragment } from 'react';
-import SignupForm from './components/auth/signup-form/SignupForm';
+import React, { Fragment, useEffect } from 'react';
 import LoginForm from './components/auth/login-form/LoginForm';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, refreshToken } from './actions/auth';
+import MainWrapper from './components/MainWrapper/MainWrapper';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshToken());
+  }, []);
 
   return (
     <Fragment>
       <h1>Todo List</h1>
-      <SignupForm />
-      {isAuthenticated ? <div className="test">Hello</div> : <LoginForm />}
+      <button onClick={() => dispatch(logout())}>Logout</button>
+      {isAuthenticated ? <MainWrapper /> : <LoginForm />}
     </Fragment>
   );
 };

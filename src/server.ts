@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import connectDB from './db';
 import UserRouter from './routes/users';
 import FolderRouter from './routes/folders';
@@ -9,8 +10,9 @@ import AuthRouter from './routes/auth';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(helmet());
+app.use(cookieParser());
 app.use(express.json());
 
 connectDB();

@@ -6,7 +6,7 @@ import { REGISTER_SUCCESS, LOGIN_SUCCESS, LOGOUT } from '../actions/types';
 
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
-const mockRes = { data: { token: 'dummyToken' } };
+const mockRes = { data: 'dummyToken' };
 const mockReq = { email: 'test@test.com', password: 'test' };
 const store = mockStore({ auth: { token: null, isAuthenticated: false } });
 
@@ -16,14 +16,12 @@ describe('Register action', () => {
 
     const expectedAction = {
       type: REGISTER_SUCCESS,
-      data: mockRes.data,
+      data: { token: mockRes.data },
     };
 
     await store.dispatch(auth.register(mockReq));
 
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([expectedAction])
-    );
+    expect(store.getActions()).toContainEqual(expectedAction);
   });
 });
 
@@ -33,22 +31,21 @@ describe('Login action', () => {
 
     const expectedAction = {
       type: LOGIN_SUCCESS,
-      data: mockRes.data,
+      data: { token: mockRes.data },
     };
 
     await store.dispatch(auth.login(mockReq));
 
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([expectedAction])
-    );
+    expect(store.getActions()).toContainEqual(expectedAction);
   });
 });
 
 describe('Logout action', () => {
-  it('Returns a LOGOUT action', () => {
-    const expectedAction = {
-      type: LOGOUT,
-    };
-    expect(auth.logout()).toEqual(expectedAction);
+  it('Returns a LOGOUT action', async () => {
+    const expectedAction = { type: LOGOUT };
+
+    await store.dispatch(auth.logout());
+
+    expect(store.getActions()).toContainEqual(expectedAction);
   });
 });

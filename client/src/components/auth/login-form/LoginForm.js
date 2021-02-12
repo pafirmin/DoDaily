@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { login } from '../../../actions/auth';
 import { Button } from '../../shared';
 
 const LoginForm = () => {
@@ -15,6 +16,9 @@ const LoginForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(userData);
+
+    dispatch(login(userData));
   };
 
   return (
@@ -25,8 +29,8 @@ const LoginForm = () => {
           <input type="text" name="email" onChange={handleChange} />
         </label>
         <label htmlFor="password">
-          Choose a secure password:
-          <input type="password" name="email" onChange={handleChange} />
+          Password:
+          <input type="password" name="password" onChange={handleChange} />
         </label>
         <Button>Sign in</Button>
       </form>
