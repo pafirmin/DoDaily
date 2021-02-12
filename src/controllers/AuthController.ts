@@ -51,9 +51,9 @@ const logIn = [
       return res
         .cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
           sameSite: false,
           secure: true,
+          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         })
         .json(accessToken);
     } catch (err) {
@@ -67,9 +67,9 @@ const refreshToken = async (req: Request, res: Response) => {
   try {
     const token = req.cookies['refreshToken'];
     if (!token) {
-      console.log('hello');
       return;
     }
+
     const secret: string | undefined = process.env.JWT_SECRET;
     if (!secret) {
       throw 'JWT secret is undefined';
@@ -77,7 +77,12 @@ const refreshToken = async (req: Request, res: Response) => {
 
     const decoded: any = jwt.verify(token, secret);
 
-    const accessToken: string = jwt.sign(decoded.user, secret, {
+    const payload = {
+      user: decoded.user,
+      expiresIn: '15m',
+    };
+
+    const accessToken: string = jwt.sign(payload, secret, {
       expiresIn: '15m',
     });
 

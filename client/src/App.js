@@ -2,7 +2,9 @@ import React, { Fragment, useEffect } from 'react';
 import LoginForm from './components/auth/login-form/LoginForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, refreshToken } from './actions/auth';
-import MainWrapper from './components/MainWrapper/MainWrapper';
+import MainWrapper from './components/main-wrapper/MainWrapper';
+import Header from './components/header/Header';
+import GlobalStyle from './GlobalStyle';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -14,8 +16,8 @@ const App = () => {
 
   return (
     <Fragment>
-      <h1>Todo List</h1>
-      <button onClick={() => dispatch(logout())}>Logout</button>
+      <GlobalStyle />
+      <Header />
       {isAuthenticated ? <MainWrapper /> : <LoginForm />}
     </Fragment>
   );
