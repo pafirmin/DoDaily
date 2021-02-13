@@ -10,11 +10,16 @@ const FolderSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'user',
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export interface FolderDoc extends mongoose.Document {
   creator: mongoose.Types.ObjectId;
   name: string;
+  date: Date;
 }
 
 export default mongoose.model<FolderDoc>('folder', FolderSchema);

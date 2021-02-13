@@ -19,7 +19,7 @@ describe('Auth Reducer', () => {
     expect(newState.isAuthenticated).toBe(true);
   });
 
-  it('Sets token and authenticates user on login', () => {
+  it('Sets token and authenticates user on login success', () => {
     const action = {
       type: LOGIN_SUCCESS,
       data: {

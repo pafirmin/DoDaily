@@ -16,7 +16,6 @@ const LoginForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(userData);
 
     dispatch(login(userData));
   };
@@ -26,7 +25,7 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">
           Email:
-          <input type="text" name="email" onChange={handleChange} />
+          <input type="email" name="email" onChange={handleChange} />
         </label>
         <label htmlFor="password">
           Password:

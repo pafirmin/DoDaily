@@ -17,7 +17,9 @@ const getFolders = [
         return res.status(404).json({ msg: 'User not found' });
       }
 
-      return res.json(user.folders);
+      const folders = user.folders.sort((a: any, b: any) => b.date - a.date);
+
+      return res.json(folders);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });
@@ -106,6 +108,8 @@ const deleteFolder = [
       });
 
       await folder.delete();
+
+      await Task.deleteMany({ folder: folder._id });
 
       return res.json({ msg: 'Folder deleted' });
     } catch (err) {

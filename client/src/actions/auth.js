@@ -1,11 +1,13 @@
 import axios from '../axios';
 import {
-  REGISTER_FAIL,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   LOGOUT,
   AUTH_FAIL,
+  ALERT,
+  CLEAR_ALERTS,
 } from '../actions/types';
+import { clearAlerts } from './alerts';
 
 export const register = userData => async dispatch => {
   try {
@@ -19,7 +21,7 @@ export const register = userData => async dispatch => {
   } catch (err) {
     console.error(err);
     dispatch({
-      type: REGISTER_FAIL,
+      type: AUTH_FAIL,
     });
   }
 };
@@ -33,11 +35,24 @@ export const login = userCredentials => async dispatch => {
       type: LOGIN_SUCCESS,
       data: { token: res.data },
     });
+
+    dispatch({
+      type: ALERT,
+      data: {
+        msg: 'Thank you for logging in!',
+        type: 'SUCCESS',
+      },
+    });
   } catch (err) {
     console.error(err);
     dispatch({
       type: AUTH_FAIL,
     });
+    err.response.data.map(err =>
+      dispatch({ type: ALERT, data: { msg: err.msg, type: 'DANGER' } })
+    );
+  } finally {
+    dispatch(clearAlerts());
   }
 };
 

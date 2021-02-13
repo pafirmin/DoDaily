@@ -4,30 +4,45 @@ import {
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
+  SET_FOLDER,
 } from '../../actions/types';
 
 describe('Folder Reducer', () => {
-  const state = [
-    {
-      name: 'Test folder 1',
-      _id: '1',
-    },
-    {
-      name: 'Test folder 2',
-      _id: '2',
-    },
-  ];
+  const state = {
+    currentFolder: null,
+    folders: [
+      {
+        name: 'Test folder 1',
+        _id: '1',
+      },
+      {
+        name: 'Test folder 2',
+        _id: '2',
+      },
+    ],
+  };
+
+  it('Sets current folder on SET_FOLDER action', () => {
+    const action = {
+      type: SET_FOLDER,
+      data: state.folders[0],
+    };
+
+    const newState = folderReducer(state, action);
+
+    expect(newState.currentFolder).toEqual(state.folders[0]);
+  });
 
   it('Initializes state on GET_FOLDERS', () => {
     const action = {
       type: GET_FOLDERS,
-      data: state,
+      data: state.folders,
     };
 
     const newState = folderReducer(null, action);
 
-    expect(newState).toHaveLength(2);
-    expect(newState).toEqual(state);
+    expect(newState.folders).toHaveLength(2);
+    expect(newState.currentFolder).toEqual(state.folders[0]);
   });
 
   it('Returns new state on NEW_FOLDER action', () => {
@@ -40,8 +55,8 @@ describe('Folder Reducer', () => {
     };
     const newState = folderReducer(state, action);
 
-    expect(newState).toHaveLength(3);
-    expect(newState).toContainEqual(action.data);
+    expect(newState.folders).toHaveLength(3);
+    expect(newState.folders).toContainEqual(action.data);
   });
 
   it('Removes folder from state on DELETE_FOLDER action', () => {
@@ -54,7 +69,7 @@ describe('Folder Reducer', () => {
 
     const newState = folderReducer(state, action);
 
-    expect(newState).toHaveLength(1);
+    expect(newState.folders).toHaveLength(1);
   });
 
   it('Renames folder on RENAME_FOLDER action', () => {
@@ -68,7 +83,7 @@ describe('Folder Reducer', () => {
 
     const newState = folderReducer(state, action);
 
-    expect(newState).toContainEqual(action.data);
-    expect(newState).toHaveLength(2);
+    expect(newState.folders).toContainEqual(action.data);
+    expect(newState.folders).toHaveLength(2);
   });
 });

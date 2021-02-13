@@ -6,6 +6,7 @@ import { check, validationResult } from 'express-validator';
 
 const logIn = [
   check('email', 'Please provide a valid email address').isEmail(),
+  check('password', 'Password field was left empty').not().isEmpty(),
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,14 +20,13 @@ const logIn = [
       if (!user) {
         return res
           .status(400)
-          .json()
-          .json({ msg: 'No user found with that email address' });
+          .json([{ msg: 'No user found with that email address' }]);
       }
 
       const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
-        return res.status(400).json({ msg: 'Invalid login details' });
+        return res.status(400).json([{ msg: 'Invalid login details' }]);
       }
 
       const payload = {
@@ -58,7 +58,7 @@ const logIn = [
         .json(accessToken);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ msg: 'Server error' });
+      return res.status(500).json([{ msg: 'Server error' }]);
     }
   },
 ];

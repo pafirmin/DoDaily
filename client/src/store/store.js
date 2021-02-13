@@ -4,11 +4,13 @@ import thunk from 'redux-thunk';
 import folderReducer from '../reducers/folderReducer/folderReducer';
 import taskReducer from '../reducers/taskReducer/taskReducer';
 import authReducer from '../reducers/authReducer/authReducer';
+import alertsReducer from '../reducers/alertaReducer/alertsReducer';
 
 const reducer = combineReducers({
   folders: folderReducer,
   tasks: taskReducer,
   auth: authReducer,
+  alerts: alertsReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

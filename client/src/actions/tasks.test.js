@@ -15,6 +15,7 @@ import {
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
 const mockTask = { name: 'Some task', _id: '1', priority: 'HIGH', done: false };
+const mockFolder = { _id: '1' };
 const mockNote = { _id: '1', noteText: 'Test note' };
 const mockRes = { data: { foo: 'bar' } };
 const store = mockStore({ tasks: [] });
@@ -28,7 +29,7 @@ describe('New task action', () => {
       data: mockRes.data,
     };
 
-    await store.dispatch(tasks.newTask(mockTask));
+    await store.dispatch(tasks.newTask(mockTask, mockFolder));
 
     expect(store.getActions()).toContainEqual(expectedAction);
   });

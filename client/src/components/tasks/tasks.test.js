@@ -1,0 +1,56 @@
+import React from 'react';
+import TaskList from './TaskList';
+import Task from './Task';
+import NewTask from './NewTask';
+import { shallow } from 'enzyme';
+import * as redux from 'react-redux';
+
+const tasks = [
+  {
+    title: 'test',
+    _id: '1',
+    priority: 'LOW',
+  },
+  {
+    title: 'test',
+    _id: '2',
+    priority: 'HIGH',
+  },
+];
+
+describe('Tasks list', () => {
+  const useDispatchMock = jest.spyOn(redux, 'useDispatch');
+  const useSelectorMock = jest.spyOn(redux, 'useSelector');
+  beforeEach(() => {
+    useSelectorMock.mockReturnValue(tasks);
+  });
+
+  it('Renders', () => {
+    const wrapper = shallow(<TaskList />);
+    expect(wrapper.find('TasksContainer')).toHaveLength(1);
+  });
+
+  it('Renders a list element', () => {
+    const wrapper = shallow(<TaskList />);
+    expect(wrapper.find('ul')).toHaveLength(1);
+  });
+
+  it('Renders task components from state', () => {
+    const wrapper = shallow(<TaskList />);
+    expect(wrapper.find(Task)).toHaveLength(2);
+  });
+});
+
+describe('Task element', () => {
+  it('Renders correct task title', () => {
+    const wrapper = shallow(<Task task={tasks[0]} />);
+    expect(wrapper.text().includes(tasks[0].title)).toBe(true);
+  });
+});
+
+describe('Task form', () => {
+  it('Renders a form', () => {
+    const wrapper = shallow(<NewTask />);
+    expect(wrapper.find('new-task-form')).toHaveLength(1);
+  });
+});

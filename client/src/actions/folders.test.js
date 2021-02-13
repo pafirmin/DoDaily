@@ -7,6 +7,7 @@ import {
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
+  SET_FOLDER,
 } from '../actions/types';
 
 jest.mock('../axios');
@@ -25,6 +26,17 @@ describe('New folder action', () => {
     };
 
     await store.dispatch(folders.newFolder(mockReq));
+
+    expect(store.getActions()).toContainEqual(expectedAction);
+  });
+});
+
+describe('Set current folder action', () => {
+  it('Creates a SET_FOLDER action', () => {
+    const folder = { name: 'Mock folder' };
+    const expectedAction = { type: SET_FOLDER, data: folder };
+
+    store.dispatch(folders.setCurrentFolder(folder));
 
     expect(store.getActions()).toContainEqual(expectedAction);
   });

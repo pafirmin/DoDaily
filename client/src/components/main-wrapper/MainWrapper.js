@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
-import FolderList from '../folder-list/FolderList';
+import FolderList from '../folders/Folders';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFolders } from '../../actions/folders';
+import TaskList from '../tasks/TaskList';
 
 const MainWrapper = () => {
   const dispatch = useDispatch();
-  const folders = useSelector(state => state.folders);
+  const folders = useSelector(state => state.folders.folders);
 
   useEffect(() => {
     dispatch(getFolders());
   }, []);
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       <FolderList folders={folders} />
+      <TaskList />
     </div>
   );
 };

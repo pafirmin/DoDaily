@@ -1,15 +1,23 @@
 import axios from '../axios';
 import {
+  SET_FOLDER,
   GET_FOLDERS,
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
 } from '../actions/types';
 
+export const setCurrentFolder = folder => {
+  return {
+    type: SET_FOLDER,
+    data: folder,
+  };
+};
+
 export const newFolder = folderData => async dispatch => {
   try {
-    const data = JSON.stringify(folderData);
-    const res = await axios.post('/api/folders', data);
+    const body = JSON.stringify(folderData);
+    const res = await axios.post('/api/folders', body);
 
     dispatch({
       type: NEW_FOLDER,

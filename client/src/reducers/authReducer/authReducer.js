@@ -20,12 +20,6 @@ const authReducer = (state = initialState, action) => {
         token: data.token,
         isAuthenticated: true,
       };
-    case REGISTER_FAIL:
-      localStorage.removeItem('jwt');
-      return {
-        token: null,
-        isAuthenticated: false,
-      };
     case LOGIN_SUCCESS:
       localStorage.setItem('jwt', data.token);
       return {
