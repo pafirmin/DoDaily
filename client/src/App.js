@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { refreshToken } from './actions/auth';
 import MainWrapper from './components/main-wrapper/MainWrapper';
 import Header from './components/header/Header';
-import GlobalStyle from './GlobalStyle';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyle, { MainTheme } from './GlobalStyle';
 import Alerts from './components/alerts/Alerts';
 
 const App = () => {
@@ -17,10 +18,12 @@ const App = () => {
 
   return (
     <Fragment>
-      <GlobalStyle />
-      <Alerts />
-      <Header />
-      {isAuthenticated ? <MainWrapper /> : <LoginForm />}
+      <ThemeProvider theme={MainTheme}>
+        <GlobalStyle />
+        <Alerts />
+        <Header />
+        {isAuthenticated ? <MainWrapper /> : <LoginForm />}
+      </ThemeProvider>
     </Fragment>
   );
 };

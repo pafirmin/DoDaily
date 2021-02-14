@@ -8,7 +8,7 @@ const SideBar = styled.aside`
   background-color: #f3f3f3;
   width: 350px;
   padding: 1.5rem;
-  min-height: calc(100vh - 150px);
+  min-height: ${props => `calc(100vh - ${props.theme.headerHeight})`};
   color: #1b1b1b;
   overflow: auto;
   box-shadow: 5px 0px 12px #c3c3c3;

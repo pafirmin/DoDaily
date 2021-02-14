@@ -1,5 +1,4 @@
 import {
-  REGISTER_FAIL,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -7,6 +6,7 @@ import {
 } from '../../actions/types';
 
 const initialState = {
+  username: null,
   token: null,
   isAuthenticated: false,
 };
@@ -17,24 +17,28 @@ const authReducer = (state = initialState, action) => {
     case REGISTER_SUCCESS:
       localStorage.setItem('jwt', data.token);
       return {
+        username: data.username,
         token: data.token,
         isAuthenticated: true,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('jwt', data.token);
       return {
+        username: data.username,
         token: data.token,
         isAuthenticated: true,
       };
     case LOGOUT:
       localStorage.removeItem('jwt');
       return {
+        username: null,
         token: null,
         isAuthenticated: false,
       };
     case AUTH_FAIL:
       localStorage.removeItem('jwt');
       return {
+        username: null,
         token: null,
         isAuthenticated: false,
       };

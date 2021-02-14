@@ -7,10 +7,12 @@ const MainHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100px;
+  height: ${props => props.theme.headerHeight};
   padding: 0 2rem;
   color: #fff;
-  background: #f44343;
+  background: ${props => props.theme.primaryColour};
+  position: relative;
+  z-index: 1000;
 `;
 MainHeader.displayName = 'MainHeader';
 
@@ -20,15 +22,15 @@ const MainTitle = styled.h1`
 MainTitle.displayName = 'MainTitle';
 
 const Header = () => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { isAuthenticated, username } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   return (
     <MainHeader>
       <MainTitle>Todo list</MainTitle>
       {isAuthenticated && (
-        <button onClick={() => dispatch(logout())}>Sign out</button>
-      )}{' '}
+        <button onClick={() => dispatch(logout())}>Sign out {username}</button>
+      )}
     </MainHeader>
   );
 };

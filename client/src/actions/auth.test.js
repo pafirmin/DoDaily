@@ -12,7 +12,7 @@ import {
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
 const store = mockStore({ auth: { token: null, isAuthenticated: false } });
-const mockRes = { data: 'dummyToken' };
+const mockRes = { data: { token: 'Dummy token', username: 'Test User' } };
 const mockReq = { email: 'test@test.com', password: 'test' };
 
 describe('Register action', () => {
@@ -21,7 +21,10 @@ describe('Register action', () => {
 
     const expectedAction = {
       type: REGISTER_SUCCESS,
-      data: { token: mockRes.data },
+      data: {
+        token: mockRes.data.token,
+        username: mockRes.data.username,
+      },
     };
 
     await store.dispatch(auth.register(mockReq));
@@ -37,7 +40,10 @@ describe('Login action', () => {
 
     const expectedAction = {
       type: LOGIN_SUCCESS,
-      data: { token: mockRes.data },
+      data: {
+        token: mockRes.data.token,
+        username: mockRes.data.username,
+      },
     };
 
     expect(store.getActions()).toContainEqual(expectedAction);

@@ -1,4 +1,5 @@
 import axios from '../axios';
+import { clearAlerts, createAlert } from './alerts';
 import {
   ADD_NOTE,
   GET_TASKS,
@@ -18,8 +19,12 @@ export const newTask = (task, folder) => async dispatch => {
       type: NEW_TASK,
       data: res.data,
     });
+    dispatch(createAlert('Task created!', 'SUCCESS'));
   } catch (err) {
     console.error(err);
+    err.response.data.map(err => dispatch(createAlert(err.msg, 'DANGER')));
+  } finally {
+    dispatch(clearAlerts());
   }
 };
 

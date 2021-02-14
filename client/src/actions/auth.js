@@ -7,7 +7,7 @@ import {
   ALERT,
   CLEAR_ALERTS,
 } from '../actions/types';
-import { clearAlerts } from './alerts';
+import { clearAlerts, createAlert } from './alerts';
 
 export const register = userData => async dispatch => {
   try {
@@ -16,7 +16,7 @@ export const register = userData => async dispatch => {
 
     dispatch({
       type: REGISTER_SUCCESS,
-      data: { token: res.data },
+      data: res.data,
     });
   } catch (err) {
     console.error(err);
@@ -33,7 +33,7 @@ export const login = userCredentials => async dispatch => {
 
     dispatch({
       type: LOGIN_SUCCESS,
-      data: { token: res.data },
+      data: res.data,
     });
 
     dispatch({
@@ -48,9 +48,7 @@ export const login = userCredentials => async dispatch => {
     dispatch({
       type: AUTH_FAIL,
     });
-    err.response.data.map(err =>
-      dispatch({ type: ALERT, data: { msg: err.msg, type: 'DANGER' } })
-    );
+    err.response.data.map(err => dispatch(createAlert(err.msg, 'DANGER')));
   } finally {
     dispatch(clearAlerts());
   }
@@ -73,7 +71,7 @@ export const refreshToken = () => async dispatch => {
     const res = await axios.post('/api/auth/refreshtoken');
     dispatch({
       type: LOGIN_SUCCESS,
-      data: { token: res.data },
+      data: res.data,
     });
   } catch (err) {
     dispatch({

@@ -40,6 +40,7 @@ const newUser = [
       const payload = {
         user: {
           id: user._id,
+          name: user.username,
         },
       };
 
@@ -51,7 +52,7 @@ const newUser = [
         expiresIn: 300000,
       });
 
-      return res.json({ token: userToken });
+      return res.json({ token: userToken, username: user.username });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });

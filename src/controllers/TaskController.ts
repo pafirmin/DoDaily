@@ -22,7 +22,9 @@ const getAll = [
 // Make new task
 const newTask = [
   auth,
-  check('title').trim().isLength({ min: 1, max: 50 }),
+  check('title', 'Tasks must have a title.')
+    .trim()
+    .isLength({ min: 1, max: 50 }),
   async (req: Request, res: Response) => {
     const errors: Result = validationResult(req);
     if (!errors.isEmpty()) {

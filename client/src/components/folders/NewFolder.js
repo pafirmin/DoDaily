@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { newFolder } from '../../actions/folders';
@@ -14,6 +14,10 @@ NewFolderForm.displayName = 'NewFolder';
 const NewFolder = () => {
   const dispatch = useDispatch();
   const newFolderRef = useRef(null);
+
+  useEffect(() => {
+    newFolderRef.current.focus();
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();

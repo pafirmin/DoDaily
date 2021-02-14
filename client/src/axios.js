@@ -20,11 +20,11 @@ instance.interceptors.response.use(
   response => response,
   async err => {
     const originalRequest = err.config;
-    if (err.response.status === 403 && originalRequest._retry === false) {
+    if (err.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const res = await instance.post('/api/auth/refreshtoken');
-      localStorage.setItem('jwt', res.data);
+      localStorage.setItem('jwt', res.data.token);
 
       const retry = await instance(originalRequest);
 

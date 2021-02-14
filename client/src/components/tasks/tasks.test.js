@@ -7,12 +7,14 @@ import * as redux from 'react-redux';
 
 const tasks = [
   {
-    title: 'test',
+    title: 'test task 1',
+    description: 'This is a test task',
     _id: '1',
     priority: 'LOW',
   },
   {
     title: 'test',
+    description: 'This is a test task',
     _id: '2',
     priority: 'HIGH',
   },
@@ -42,13 +44,20 @@ describe('Tasks list', () => {
 });
 
 describe('Task element', () => {
+  const useDispatchMock = jest.spyOn(redux, 'useDispatch');
+
   it('Renders correct task title', () => {
     const wrapper = shallow(<Task task={tasks[0]} />);
     expect(wrapper.text().includes(tasks[0].title)).toBe(true);
   });
+
+  it('Renders task description', () => {
+    const wrapper = shallow(<Task task={tasks[0]} />);
+    expect(wrapper.text().includes(tasks[0].description)).toBe(true);
+  });
 });
 
-describe('Task form', () => {
+describe('New task form', () => {
   it('Renders a form', () => {
     const wrapper = shallow(<NewTask />);
     expect(wrapper.find('new-task-form')).toHaveLength(1);

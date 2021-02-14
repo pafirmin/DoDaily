@@ -32,6 +32,7 @@ const logIn = [
       const payload = {
         user: {
           id: user._id,
+          name: user.username,
         },
       };
 
@@ -55,7 +56,7 @@ const logIn = [
           secure: true,
           expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         })
-        .json(accessToken);
+        .json({ token: accessToken, username: user.username });
     } catch (err) {
       console.error(err);
       return res.status(500).json([{ msg: 'Server error' }]);
@@ -79,14 +80,13 @@ const refreshToken = async (req: Request, res: Response) => {
 
     const payload = {
       user: decoded.user,
-      expiresIn: '15m',
     };
 
     const accessToken: string = jwt.sign(payload, secret, {
       expiresIn: '15m',
     });
 
-    return res.json(accessToken);
+    return res.json({ token: accessToken, username: decoded.user.name });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ msg: 'Server error' });

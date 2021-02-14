@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -52,6 +53,13 @@ button {
   font: inherit;
   color: inherit;
 }
+button:focus {
+    outline: none;
+    outline-offset: 0;
+    transform: none;
+}
+button:active {
+}
 a {
   text-decoration: none;
 }
@@ -60,8 +68,14 @@ a:visited {
   color: inherit;
 } 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.8em;
 }
 `;
+
+export const MainTheme = {
+  headerHeight: '100px',
+  primaryColour: '#672a6c',
+  secondaryColour: '#5e6aaa',
+};
 
 export default GlobalStyle;

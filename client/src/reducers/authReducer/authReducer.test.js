@@ -10,6 +10,7 @@ describe('Auth Reducer', () => {
     const action = {
       type: REGISTER_SUCCESS,
       data: {
+        username: 'Test user',
         token: 'test',
       },
     };
@@ -17,12 +18,14 @@ describe('Auth Reducer', () => {
 
     expect(localStorage.getItem('jwt')).toEqual(action.data.token);
     expect(newState.isAuthenticated).toBe(true);
+    expect(newState.username).toEqual(action.data.username);
   });
 
   it('Sets token and authenticates user on login success', () => {
     const action = {
       type: LOGIN_SUCCESS,
       data: {
+        username: 'Test user',
         token: 'test',
       },
     };
@@ -30,6 +33,7 @@ describe('Auth Reducer', () => {
 
     expect(localStorage.getItem('jwt')).toEqual(action.data.token);
     expect(newState.isAuthenticated).toBe(true);
+    expect(newState.username).toEqual(action.data.username);
   });
 
   it('Logs user out on LOGOUT action', () => {
