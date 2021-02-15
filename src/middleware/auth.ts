@@ -28,7 +28,6 @@ const auth: RequestHandler = (req, res, next) => {
 
     return next();
   } catch (err) {
-    console.error(err);
     return res.status(403).json({ msg: '403: Unauthorized' });
   }
 };

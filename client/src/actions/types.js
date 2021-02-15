@@ -24,3 +24,9 @@ export const DELETE_FOLDER = 'DELETE_FOLDER';
 // Alert actions
 export const CLEAR_ALERTS = 'CLEAR ALERTS';
 export const ALERT = 'ALERT';
+
+// Sidebar actions
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+export const SHOW_SIDEBAR = 'SHOW_SIDEBAR';
+export const HIDE_SIDEBAR = 'HIDE_SIDEBAR';
+export const SET_DATE = 'SET_DATE';

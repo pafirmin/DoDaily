@@ -35,7 +35,7 @@ const TaskList = () => {
 
   return (
     <TasksContainer>
-      <NewTask show={showForm} />
+      {/* <NewTask show={showForm} /> */}
       <TasksHeader>
         <h2>Tasks</h2>
         <Button onClick={() => setShowForm(!showForm)}>Add</Button>

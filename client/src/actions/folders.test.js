@@ -12,9 +12,9 @@ import {
 
 jest.mock('../axios');
 const mockStore = configureMockStore([thunk]);
+const store = mockStore({ folders: [] });
 const mockReq = { name: 'Some folder', _id: '1' };
 const mockRes = { data: { foo: 'bar' } };
-const store = mockStore({ folders: [] });
 
 describe('New folder action', () => {
   it('Creates a NEW_FOLDER action', async () => {

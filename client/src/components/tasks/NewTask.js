@@ -48,11 +48,12 @@ const PrioritySelect = styled.button`
   }
 `;
 
-const NewTask = ({ show }) => {
+const NewTask = () => {
   const dispatch = useDispatch();
   const currentFolder = useSelector(state => state.folders.currentFolder);
+  const { show, date } = useSelector(state => state.sidebar);
   const titleInputRef = useRef(null);
-  const [dueDate, setDueDate] = useState(new Date());
+  const [dueDate, setDueDate] = useState(date);
   const [taskValues, setTaskValues] = useState({
     title: '',
     description: '',
@@ -62,6 +63,10 @@ const NewTask = ({ show }) => {
   useEffect(() => {
     show && titleInputRef.current.focus();
   }, [show]);
+
+  useEffect(() => {
+    setDueDate(date);
+  }, [date]);
 
   const handleSubmit = e => {
     e.preventDefault();

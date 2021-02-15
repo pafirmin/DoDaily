@@ -2,16 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllTasks } from '../../actions/tasks';
 import styled from 'styled-components';
-import { getDaysInMonth, getDate, parseISO, getMonth, getYear } from 'date-fns';
+import {
+  getDaysInMonth,
+  getDate,
+  getDay,
+  parseISO,
+  getMonth,
+  getYear,
+} from 'date-fns';
 import CalendarDay from './CalendarDay';
 import { set } from 'lodash';
 
 const CalendarWrapper = styled.div`
   display: grid;
   width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
   gap: 0.3rem;
   grid-template-columns: repeat(7, 1fr);
+`;
+
+const BlankDay = styled.div`
+  padding: 50% 0;
+  height: 0;
+  background-color: #c3c3c3;
+`;
+
+const DayHeader = styled.div`
+  padding: 0.3em;
+  background-color: ${props => props.theme.secondaryColour};
+  color: #fff;
 `;
 
 const Calendar = () => {
@@ -51,20 +70,33 @@ const Calendar = () => {
     setMonth(month - 1);
   };
 
-  const getCalendarDays = () => {
+  const getCalendarEntries = () => {
     const children = [];
     const daysInMonth = getDaysInMonth(new Date(year, month));
+    const firstDay = getDay(new Date(year, month, 0));
+
+    for (let i = 0; i < firstDay; i++) {
+      children.push(<BlankDay key={i} />);
+    }
     for (let day = 1; day <= daysInMonth; day++) {
       const tasks = tasksTable[year]?.[month]?.[day];
+      const date = new Date(year, month, day);
 
-      children.push(<CalendarDay key={day} day={day} tasks={tasks} />);
+      children.push(
+        <CalendarDay key={date} day={day} date={date} tasks={tasks} />
+      );
     }
     return children;
   };
 
   return (
     <div style={{ width: '100%' }}>
-      <CalendarWrapper>{getCalendarDays()}</CalendarWrapper>
+      <CalendarWrapper>
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+          <DayHeader key={day}>{day}</DayHeader>
+        ))}
+        {getCalendarEntries()}
+      </CalendarWrapper>
       <button onClick={handlePrevMonth}>Previous month</button>
       <button onClick={handleNextMonth}>Next month</button>
     </div>
