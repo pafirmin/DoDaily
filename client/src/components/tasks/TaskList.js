@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import { Button } from '../shared';
 import NewTask from './NewTask';
 import { getTasks } from '../../actions/tasks';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const TasksContainer = styled.div`
   padding: 1.5rem;
@@ -37,12 +35,11 @@ const TaskList = () => {
 
   return (
     <TasksContainer>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <NewTask show={showForm} />
-      </MuiPickersUtilsProvider>
+      <NewTask show={showForm} />
       <TasksHeader>
         <h2>Tasks</h2>
         <Button onClick={() => setShowForm(!showForm)}>Add</Button>
+        {!tasks.length && <span>Add your first task to this folder!</span>}
       </TasksHeader>
       <ul>
         {tasks.map(task => (

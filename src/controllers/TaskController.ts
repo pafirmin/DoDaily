@@ -9,7 +9,7 @@ const getAll = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const tasks = Task.find({ user: req.user.id });
+      const tasks = await Task.find({ user: req.user.id });
 
       return res.json(tasks);
     } catch (err) {

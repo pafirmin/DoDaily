@@ -1,5 +1,6 @@
 import {
   GET_TASKS,
+  GET_ALL_TASKS,
   NEW_TASK,
   TOGGLE_DONE,
   CHANGE_PRIORITY,
@@ -13,6 +14,8 @@ const taskReducer = (state = initialState, action) => {
   const { type, data } = action;
   switch (type) {
     case GET_TASKS:
+      return data;
+    case GET_ALL_TASKS:
       return data;
     case NEW_TASK:
       return [data, ...state];

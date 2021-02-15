@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Button, TextInput, TextArea } from '../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { newTask } from '../../actions/tasks';
-import { DateTimePicker } from '@material-ui/pickers';
+import DatePicker from 'react-datepicker';
+import { subDays } from 'date-fns';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const NewTaskForm = styled.form`
   position: fixed;
@@ -12,6 +14,7 @@ const NewTaskForm = styled.form`
   top: ${props => props.theme.headerHeight};
   height: 100%;
   display: flex;
+  width: 350px;
   flex-direction: column;
   align-items: center;
   background: #fff;
@@ -49,7 +52,7 @@ const NewTask = ({ show }) => {
   const dispatch = useDispatch();
   const currentFolder = useSelector(state => state.folders.currentFolder);
   const titleInputRef = useRef(null);
-  const [dueDate, setDueDate] = useState(null);
+  const [dueDate, setDueDate] = useState(new Date());
   const [taskValues, setTaskValues] = useState({
     title: '',
     description: '',
@@ -61,14 +64,12 @@ const NewTask = ({ show }) => {
   }, [show]);
 
   const handleSubmit = e => {
-    console.log(e.target.value);
     e.preventDefault();
 
-    // dispatch(newTask({ ...taskValues, dueDate }, currentFolder));
+    dispatch(newTask({ ...taskValues, dueDate }, currentFolder));
   };
 
   const handleChange = e => {
-    console.log(e.target.value);
     setTaskValues({
       ...taskValues,
       [e.target.name]: e.target.value,
@@ -79,7 +80,7 @@ const NewTask = ({ show }) => {
     <NewTaskForm show={show} onSubmit={handleSubmit}>
       <h2>New task</h2>
       <label for="title">
-        <p>Title</p>
+        <p>Title*</p>
         <TextInput
           ref={titleInputRef}
           aria-label="Task title"
@@ -96,16 +97,17 @@ const NewTask = ({ show }) => {
           name="description"
           value={taskValues.description}
           onChange={handleChange}
+          rows="4"
         />
       </label>
       <label for="priority">
-        <p>Priority</p>
+        <p>Priority*</p>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <PrioritySelect
             type="button"
             name="priority"
-            isSelected={taskValues.priority === 'LOW'}
             value="LOW"
+            isSelected={taskValues.priority === 'LOW'}
             onClick={handleChange}
           >
             Low
@@ -113,8 +115,8 @@ const NewTask = ({ show }) => {
           <PrioritySelect
             type="button"
             name="priority"
-            isSelected={taskValues.priority === 'MEDIUM'}
             value="MEDIUM"
+            isSelected={taskValues.priority === 'MEDIUM'}
             onClick={handleChange}
           >
             Medium
@@ -122,25 +124,26 @@ const NewTask = ({ show }) => {
           <PrioritySelect
             type="button"
             name="priority"
-            isSelected={taskValues.priority === 'HIGH'}
             value="HIGH"
+            isSelected={taskValues.priority === 'HIGH'}
             onClick={handleChange}
           >
             High
           </PrioritySelect>
         </div>
       </label>
-      <div>
-        <label htmlFor="dueDate">
-          <DateTimePicker
-            value={dueDate}
-            onChange={setDueDate}
-            disablePast={true}
-            fullWidth={true}
-            size={'medium'}
-          />
-        </label>
-      </div>
+      <label style={{ width: '100%' }}>
+        <p>Due</p>
+        <DatePicker
+          className="date-picker"
+          selected={dueDate}
+          showTimeSelect
+          onChange={date => setDueDate(date)}
+          dateFormat="MMMM d, yyyy h:mm aa"
+          minDate={subDays(new Date(), 0)}
+          popperPlacement="bottom-end"
+        />
+      </label>
       <Button>Add task</Button>
     </NewTaskForm>
   );

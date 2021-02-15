@@ -70,6 +70,13 @@ a:visited {
 h2 {
   font-size: 1.8em;
 }
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.date-picker {
+  width: 100%;
+}
+
 `;
 
 export const MainTheme = {

@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import {
   GET_TASKS,
+  GET_ALL_TASKS,
   NEW_TASK,
   TOGGLE_DONE,
   CHANGE_PRIORITY,
@@ -45,6 +46,20 @@ describe('Get tasks action', () => {
     };
 
     await store.dispatch(tasks.getTasks({ _id: '1' }));
+
+    expect(store.getActions()).toContainEqual(expectedAction);
+  });
+});
+
+describe('Get all tasks action', () => {
+  it('Creates a GET_ALL_TASKS action', async () => {
+    axios.get.mockResolvedValue(mockRes);
+
+    const expectedAction = {
+      type: GET_ALL_TASKS,
+      data: mockRes.data,
+    };
+    await store.dispatch(tasks.getAllTasks());
 
     expect(store.getActions()).toContainEqual(expectedAction);
   });

@@ -12,6 +12,7 @@ export const CHANGE_PRIORITY = 'CHANGE_PRIORITY';
 export const ADD_NOTE = 'ADD_NOTE';
 export const DELETE_TASK = 'DELETE_TASK';
 export const DELETE_NOTE = 'DELETE_NOTE';
+export const GET_ALL_TASKS = 'GET_ALL_TASKS';
 
 // Folder actions
 export const SET_FOLDER = 'SET_FOLDER';

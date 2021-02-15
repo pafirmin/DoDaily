@@ -1,6 +1,7 @@
 import taskReducer from './taskReducer';
 import {
   GET_TASKS,
+  GET_ALL_TASKS,
   NEW_TASK,
   TOGGLE_DONE,
   CHANGE_PRIORITY,
@@ -32,7 +33,19 @@ describe('Task Reducer', () => {
       data: state,
     };
 
-    const newState = taskReducer(null, action);
+    const newState = taskReducer(undefined, action);
+
+    expect(newState).toHaveLength(2);
+    expect(newState).toEqual(state);
+  });
+
+  it('Returns tasks on GET_ALL_TASKS', () => {
+    const action = {
+      type: GET_ALL_TASKS,
+      data: state,
+    };
+
+    const newState = taskReducer(undefined, action);
 
     expect(newState).toHaveLength(2);
     expect(newState).toEqual(state);

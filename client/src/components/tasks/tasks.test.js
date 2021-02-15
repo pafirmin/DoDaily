@@ -2,8 +2,10 @@ import React from 'react';
 import TaskList from './TaskList';
 import Task from './Task';
 import NewTask from './NewTask';
-import { shallow } from 'enzyme';
+import { TaskHeader } from './Task';
+import { shallow, render } from 'enzyme';
 import * as redux from 'react-redux';
+import 'jest-styled-components';
 
 const tasks = [
   {

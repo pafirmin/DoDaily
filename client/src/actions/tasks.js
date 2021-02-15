@@ -3,6 +3,7 @@ import { clearAlerts, createAlert } from './alerts';
 import {
   ADD_NOTE,
   GET_TASKS,
+  GET_ALL_TASKS,
   NEW_TASK,
   TOGGLE_DONE,
   DELETE_NOTE,
@@ -34,6 +35,19 @@ export const getTasks = folder => async dispatch => {
 
     dispatch({
       type: GET_TASKS,
+      data: res.data,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAllTasks = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/tasks');
+
+    dispatch({
+      type: GET_ALL_TASKS,
       data: res.data,
     });
   } catch (err) {
