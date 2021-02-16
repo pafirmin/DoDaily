@@ -8,14 +8,16 @@ import {
   parseISO,
   getMonth,
   getYear,
+  format,
 } from 'date-fns';
 import CalendarDay from './CalendarDay';
+import CalendarHeader from './CalendarHeader';
 import { set } from 'lodash';
 
 const CalendarWrapper = styled.div`
   display: grid;
-  width: 800px;
-  margin: 2rem auto;
+  width: 100%;
+  margin: 2rem;
   gap: 0.3rem;
   grid-template-columns: repeat(7, 1fr);
 `;
@@ -85,15 +87,18 @@ const Calendar = () => {
   };
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '800px', margin: '0 auto' }}>
+      <CalendarHeader
+        month={format(new Date(year, month), 'MMMM yyyy')}
+        nextMonth={handleNextMonth}
+        prevMonth={handlePrevMonth}
+      />
       <CalendarWrapper>
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
           <DayHeader key={day}>{day}</DayHeader>
         ))}
         {getCalendarEntries()}
       </CalendarWrapper>
-      <button onClick={handlePrevMonth}>Previous month</button>
-      <button onClick={handleNextMonth}>Next month</button>
     </div>
   );
 };

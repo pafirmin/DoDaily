@@ -26,7 +26,8 @@ section {
 }
 body {
   line-height: 1;
-  font-family: 'Lato', sans-serif;;
+  font-family: 'Lato', sans-serif;
+  color: #1d1d1d;
 }
 ol,
 ul {

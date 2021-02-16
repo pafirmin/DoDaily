@@ -95,11 +95,11 @@ const NewTask = () => {
         <i
           style={{ fontSize: '2em', cursor: 'pointer' }}
           aria-label="Close menu"
-          class="fas fa-angle-right"
+          className="fas fa-angle-right"
           onClick={() => dispatch(hideSidebar())}
         />
       </header>
-      <label for="title">
+      <label htmlFor="title">
         <p>Title*</p>
         <TextInput
           ref={titleInputRef}
@@ -110,7 +110,7 @@ const NewTask = () => {
           onChange={handleChange}
         />
       </label>
-      <label for="description">
+      <label htmlFor="description">
         <p>Description</p>
         <TextArea
           aria-label="Task description"
@@ -120,7 +120,7 @@ const NewTask = () => {
           rows="4"
         />
       </label>
-      <label for="priority">
+      <label htmlFor="priority">
         <p>Priority*</p>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <PrioritySelect
@@ -152,11 +152,13 @@ const NewTask = () => {
           </PrioritySelect>
         </div>
       </label>
-      <label for="folder" />
+      <label htmlFor="folder" />
       <p>Folder</p>
       <select value={currentFolder?._id}>
         {folders.map(folder => (
-          <option value={folder._id}>{folder.name}</option>
+          <option key={folder._id} value={folder._id}>
+            {folder.name}
+          </option>
         ))}
       </select>
       <label style={{ width: '100%' }}>

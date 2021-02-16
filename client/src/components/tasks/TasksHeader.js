@@ -1,48 +1,82 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const StyledHeader = styled.header`
-  display: flex;
-  align-items: center;
-
-  button {
-    margin-left: 2rem;
-  }
-  h2 {
-    cursor: pointer;
-  }
-`;
+import { useDispatch } from 'react-redux';
+import styled, { css, keyframes } from 'styled-components';
+import { toggleSidebar } from '../../actions/sidebar';
+import { Button } from '../shared';
 
 const TasksNav = styled.nav`
   display: flex;
   align-items: center;
-`;
+  margin-top: 0.5rem;
 
-const NavItem = styled.h2`
-  border-bottom: ${props =>
-    props.currentTab === props.tab
-      ? `3px solid ${props.theme.secondaryColour}`
-      : '3px solid transparent'};
-  color: ${props => (props.currentTab === props.tab ? `inherit` : '#6c6c6c')};
-  padding-bottom: '.5rem';
-
-  + * {
-    margin-left: 2rem;
+  h3 {
+    cursor: pointer;
   }
 `;
 
+const SlideIn = keyframes`
+  from {width: 0};
+  to {width: 100%}
+`;
+
+const UnderLine = css`
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0px;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+`;
+
+const NavItem = styled.h3`
+  font-size: 1.2em;
+  position: relative;
+  width: 8rem;
+  text-align: center;
+  padding-bottom: 0.4rem;
+  color: ${props => (props.isActive ? `inherit` : '#6c6c6c')};
+  overflow-x: hidden;
+  transition: color 0.2s;
+
+  + * {
+    margin-left: 0.3rem;
+  }
+  &:before {
+    ${UnderLine}
+    z-index: 1;
+    background: #c3c3c3;
+  }
+  ${props =>
+    props.isActive &&
+    css`
+      &:after {
+        ${UnderLine}
+        z-index: 5;
+        animation: ${SlideIn} 0.2s ease;
+        background: ${props => props.theme.secondaryColour};
+      }
+    `}
+`;
+
 const TasksHeader = ({ title, currentTab, switchToTab }) => {
+  const dispatch = useDispatch();
   return (
-    <StyledHeader>
+    <header>
+      <h2 style={{ borderBottom: '1px solid #d3d3d3', paddingBottom: '.4rem' }}>
+        {title}
+      </h2>
       <TasksNav>
-        <NavItem tab={1} currentTab={currentTab} onClick={() => switchToTab(1)}>
-          {title}
+        <NavItem isActive={currentTab === 1} onClick={() => switchToTab(1)}>
+          Tasks
         </NavItem>
-        <NavItem tab={2} currentTab={currentTab} onClick={() => switchToTab(2)}>
+        <NavItem isActive={currentTab === 2} onClick={() => switchToTab(2)}>
           Calendar
         </NavItem>
+        {/* <Button onClick={() => dispatch(toggleSidebar())}>Add</Button> */}
       </TasksNav>
-    </StyledHeader>
+    </header>
   );
 };
 
