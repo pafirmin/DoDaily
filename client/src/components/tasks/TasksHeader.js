@@ -1,13 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import styled, { css, keyframes } from 'styled-components';
-import { toggleSidebar } from '../../actions/sidebar';
-import { Button } from '../shared';
 
 const TasksNav = styled.nav`
   display: flex;
   align-items: center;
   margin-top: 0.5rem;
+  justify-content: center;
 
   h3 {
     cursor: pointer;
@@ -41,7 +40,7 @@ const NavItem = styled.h3`
   transition: color 0.2s;
 
   + * {
-    margin-left: 0.3rem;
+    margin-left: 2rem;
   }
   &:before {
     ${UnderLine}
@@ -61,10 +60,15 @@ const NavItem = styled.h3`
 `;
 
 const TasksHeader = ({ title, currentTab, switchToTab }) => {
-  const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   return (
     <header>
-      <h2 style={{ borderBottom: '1px solid #d3d3d3', paddingBottom: '.4rem' }}>
+      <h2
+        style={{
+          paddingBottom: '.4rem',
+          textAlign: isMobile ? 'center' : 'left',
+        }}
+      >
         {title}
       </h2>
       <TasksNav>
@@ -74,7 +78,6 @@ const TasksHeader = ({ title, currentTab, switchToTab }) => {
         <NavItem isActive={currentTab === 2} onClick={() => switchToTab(2)}>
           Calendar
         </NavItem>
-        {/* <Button onClick={() => dispatch(toggleSidebar())}>Add</Button> */}
       </TasksNav>
     </header>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import {
   getDaysInMonth,
@@ -15,9 +16,14 @@ import CalendarHeader from './CalendarHeader';
 import { set } from 'lodash';
 
 const CalendarWrapper = styled.div`
+  width: ${props => (props.isMobile ? '100%' : '70%')};
+  margin: 2rem auto;
+`;
+
+const CalendarMain = styled.div`
   display: grid;
   width: 100%;
-  margin: 2rem;
+  margin-top: 2rem;
   gap: 0.3rem;
   grid-template-columns: repeat(7, 1fr);
 `;
@@ -40,6 +46,7 @@ const Calendar = () => {
   const [tasksTable, setTasksTable] = useState({});
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
+  const isMobile = useMediaQuery({ query: '(max-width: 800px)' });
 
   useEffect(() => {
     setTasksTable(generateTasksTable(tasks));
@@ -87,19 +94,19 @@ const Calendar = () => {
   };
 
   return (
-    <div style={{ width: '800px', margin: '0 auto' }}>
+    <CalendarWrapper isMobile={isMobile}>
       <CalendarHeader
         month={format(new Date(year, month), 'MMMM yyyy')}
         nextMonth={handleNextMonth}
         prevMonth={handlePrevMonth}
       />
-      <CalendarWrapper>
+      <CalendarMain>
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
           <DayHeader key={day}>{day}</DayHeader>
         ))}
         {getCalendarEntries()}
-      </CalendarWrapper>
-    </div>
+      </CalendarMain>
+    </CalendarWrapper>
   );
 };
 

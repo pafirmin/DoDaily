@@ -9,7 +9,7 @@ import TasksHeader from './TasksHeader';
 const TasksContainer = styled.div`
   padding: 1.5rem;
   position: relative;
-  width: 100%;
+  width: 1200px;
   overflow-x: hidden;
 `;
 TasksContainer.displayName = 'TasksContainer';

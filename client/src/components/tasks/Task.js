@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { isPast, formatDistanceToNow, parseISO } from 'date-fns';
+import { useMediaQuery } from 'react-responsive';
 
 const TaskWrapper = styled.div`
   box-shadow: 2px 2px 8px #c3c3c3;
-  margin: 1rem 0;
-  max-width: 60%;
+  margin: 1rem auto;
+  max-width: ${props => (props.isMobile ? '100%' : '60%')};
   border-radius: 20px;
 `;
 
@@ -39,6 +40,7 @@ const PriorityMarker = styled.i`
 
 const Task = ({ task }) => {
   const [showDescription, setShowDescription] = useState(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
   const toggleDescription = () => {
     setShowDescription(!showDescription);
@@ -61,7 +63,7 @@ const Task = ({ task }) => {
   };
 
   return (
-    <TaskWrapper>
+    <TaskWrapper isMobile={isMobile}>
       <TaskHeader onClick={toggleDescription}>
         <PriorityMarker
           colour={getMarkerColour(task)}

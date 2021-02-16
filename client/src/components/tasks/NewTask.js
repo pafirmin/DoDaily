@@ -4,9 +4,9 @@ import { Button, TextInput, TextArea } from '../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { newTask } from '../../actions/tasks';
 import { hideSidebar } from '../../actions/sidebar';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import { subDays } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 
 const NewTaskForm = styled.form`
   position: fixed;
@@ -21,6 +21,7 @@ const NewTaskForm = styled.form`
   background: #fff;
   padding: 1.5rem;
   box-shadow: 3px 3px 12px #c3c3c3;
+  z-index: 1000;
 
   & p {
     margin-bottom: 0.2rem;
@@ -163,7 +164,7 @@ const NewTask = () => {
       </select>
       <label style={{ width: '100%' }}>
         <p>Due</p>
-        <DatePicker
+        {/* <DatePicker
           className="date-picker"
           selected={dueDate}
           showTimeSelect
@@ -171,7 +172,7 @@ const NewTask = () => {
           dateFormat="MMMM d, yyyy h:mm aa"
           minDate={subDays(new Date(), 0)}
           popperPlacement="bottom-end"
-        />
+        /> */}
       </label>
       <Button>Add task</Button>
     </NewTaskForm>
