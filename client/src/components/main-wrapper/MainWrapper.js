@@ -20,7 +20,7 @@ const MainWrapper = () => {
     <Router>
       <div style={{ display: 'flex', width: '100%', position: 'relative' }}>
         {!isMobile && <FolderList folders={folders} />}
-        {currentFolder && <TasksWrapper />}
+        <TasksWrapper />
         <NewTask />
       </div>
     </Router>

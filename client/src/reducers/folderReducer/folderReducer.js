@@ -21,7 +21,7 @@ const folderReducer = (state = initialState, action) => {
       };
     case GET_FOLDERS:
       return {
-        currentFolder: data[0],
+        currentFolder: 'SUMMARY',
         folders: data,
       };
     case NEW_FOLDER:

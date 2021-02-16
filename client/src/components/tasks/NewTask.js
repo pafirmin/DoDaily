@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, TextInput, TextArea } from '../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { newTask } from '../../actions/tasks';
 import { hideSidebar } from '../../actions/sidebar';
 // import DatePicker from 'react-datepicker';
-import { subDays } from 'date-fns';
+import { subDays, endOfToday, endOfTomorrow } from 'date-fns';
 // import 'react-datepicker/dist/react-datepicker.css';
 
 const NewTaskForm = styled.form`
@@ -50,6 +50,11 @@ const PrioritySelect = styled.button`
   }
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const NewTask = () => {
   const titleInputRef = useRef(null);
   const dispatch = useDispatch();
@@ -61,6 +66,8 @@ const NewTask = () => {
     description: '',
     priority: 'LOW',
   });
+  const today = useMemo(() => endOfToday(), [show]);
+  const tomorrow = useMemo(() => endOfTomorrow(), [show]);
 
   useEffect(() => {
     show && titleInputRef.current.focus();
@@ -123,7 +130,7 @@ const NewTask = () => {
       </label>
       <label htmlFor="priority">
         <p>Priority*</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <ButtonGroup>
           <PrioritySelect
             type="button"
             name="priority"
@@ -151,7 +158,7 @@ const NewTask = () => {
           >
             High
           </PrioritySelect>
-        </div>
+        </ButtonGroup>
       </label>
       <label htmlFor="folder" />
       <p>Folder</p>
@@ -163,7 +170,23 @@ const NewTask = () => {
         ))}
       </select>
       <label style={{ width: '100%' }}>
-        <p>Due</p>
+        <p>When?</p>
+        <ButtonGroup>
+          <PrioritySelect
+            type="button"
+            onClick={() => setDueDate(today)}
+            isSelected={dueDate === today}
+          >
+            By end of day
+          </PrioritySelect>
+          <PrioritySelect
+            type="button"
+            onClick={() => setDueDate(tomorrow)}
+            isSelected={dueDate === tomorrow}
+          >
+            Tomorrow
+          </PrioritySelect>
+        </ButtonGroup>
         {/* <DatePicker
           className="date-picker"
           selected={dueDate}

@@ -31,7 +31,12 @@ export const newTask = (task, folder) => async dispatch => {
 
 export const getTasks = folder => async dispatch => {
   try {
-    const res = await axios.get(`/api/folders/${folder._id}/tasks`);
+    let res;
+    if (folder === 'SUMMARY') {
+      res = await axios.get(`/api/tasks`);
+    } else {
+      res = await axios.get(`/api/folders/${folder._id}/tasks`);
+    }
 
     dispatch({
       type: GET_TASKS,

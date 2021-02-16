@@ -9,7 +9,10 @@ const getAll = [
   auth,
   async (req: Request, res: Response) => {
     try {
-      const tasks = await Task.find({ user: req.user.id });
+      const tasks = await Task.find({
+        user: req.user.id,
+        dueDate: { $gt: new Date() },
+      });
 
       return res.json(tasks);
     } catch (err) {
@@ -27,6 +30,7 @@ const newTask = [
     .isLength({ min: 1, max: 50 }),
   async (req: Request, res: Response) => {
     const errors: Result = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.array());
     }

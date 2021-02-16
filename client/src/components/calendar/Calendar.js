@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
@@ -43,16 +43,11 @@ const DayHeader = styled.div`
 const Calendar = () => {
   const today = new Date();
   const tasks = useSelector(state => state.tasks);
-  const [tasksTable, setTasksTable] = useState({});
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const isMobile = useMediaQuery({ query: '(max-width: 800px)' });
 
-  useEffect(() => {
-    setTasksTable(generateTasksTable(tasks));
-  }, [tasks]);
-
-  const generateTasksTable = tasks => {
+  const tasksTable = useMemo(() => {
     let table = {};
 
     tasks.forEach(task => {
@@ -64,7 +59,7 @@ const Calendar = () => {
       set(table, props.join('.'), task);
     });
     return table;
-  };
+  }, [tasks]);
 
   const handleNextMonth = () => {
     setMonth(month + 1);

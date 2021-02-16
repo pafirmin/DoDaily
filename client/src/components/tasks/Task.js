@@ -4,10 +4,12 @@ import { isPast, formatDistanceToNow, parseISO } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
 
 const TaskWrapper = styled.div`
-  box-shadow: 2px 2px 8px #c3c3c3;
-  margin: 1rem auto;
-  max-width: ${props => (props.isMobile ? '100%' : '60%')};
-  border-radius: 20px;
+  /* box-shadow: 0px 0px 4px #c3c3c3; */
+  margin: 0 auto;
+  padding: 0.5rem 0;
+  width: 100%;
+  /* border-radius: 20px; */
+  border-bottom: 1px solid #c3c3c3;
 `;
 
 const TaskHeader = styled.header`

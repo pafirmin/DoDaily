@@ -26,7 +26,7 @@ const TasksWrapper = () => {
   return (
     <TasksContainer>
       <TasksHeader
-        title={currentFolder.name}
+        title={currentFolder?.name || 'Summary'}
         currentTab={currentTab}
         switchToTab={tab => setCurrentTab(tab)}
       />

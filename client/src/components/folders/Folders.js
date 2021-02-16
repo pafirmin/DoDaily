@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import FolderListItem from './FolderListItem';
+import { StyledLi } from '../shared';
 import NewFolder from './NewFolder';
 import { Button } from '../shared';
+import { setCurrentFolder } from '../../actions/folders';
 
 const SideBar = styled.aside`
   background-color: #f3f3f3;
@@ -21,10 +24,8 @@ SideBar.displayName = 'SideBar';
 
 const FolderList = ({ folders }) => {
   const [showForm, setShowForm] = useState(false);
+  const dispatch = useDispatch();
 
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
   return (
     <SideBar>
       <header
@@ -35,11 +36,17 @@ const FolderList = ({ folders }) => {
         }}
       >
         <h2>Your Folders</h2>
-        <Button onClick={toggleForm}>New</Button>
+        <Button onClick={() => setShowForm(!showForm)}>New</Button>
       </header>
       <div>
         {showForm && <NewFolder />}
         <ul>
+          <StyledLi
+            key="SUMMARY"
+            onClick={() => dispatch(setCurrentFolder('SUMMARY'))}
+          >
+            Summary
+          </StyledLi>
           {folders.map(folder => (
             <FolderListItem key={folder._id} folder={folder} />
           ))}
