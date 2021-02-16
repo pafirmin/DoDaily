@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllTasks } from '../../actions/tasks';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
   getDaysInMonth,
@@ -36,14 +35,9 @@ const DayHeader = styled.div`
 const Calendar = () => {
   const today = new Date();
   const tasks = useSelector(state => state.tasks);
-  const dispatch = useDispatch();
   const [tasksTable, setTasksTable] = useState({});
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
-
-  useEffect(() => {
-    dispatch(getAllTasks());
-  }, []);
 
   useEffect(() => {
     setTasksTable(generateTasksTable(tasks));
@@ -51,6 +45,7 @@ const Calendar = () => {
 
   const generateTasksTable = tasks => {
     let table = {};
+
     tasks.forEach(task => {
       const dueYear = getYear(parseISO(task.dueDate));
       const dueMonth = getMonth(parseISO(task.dueDate));

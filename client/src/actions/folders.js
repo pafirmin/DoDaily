@@ -5,6 +5,7 @@ import {
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
+  GET_TASKS,
 } from '../actions/types';
 
 export const setCurrentFolder = folder => {

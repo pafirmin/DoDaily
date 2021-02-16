@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button, TextInput, TextArea } from '../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { newTask } from '../../actions/tasks';
+import { hideSidebar } from '../../actions/sidebar';
 import DatePicker from 'react-datepicker';
 import { subDays } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -49,10 +50,10 @@ const PrioritySelect = styled.button`
 `;
 
 const NewTask = () => {
-  const dispatch = useDispatch();
-  const currentFolder = useSelector(state => state.folders.currentFolder);
-  const { show, date } = useSelector(state => state.sidebar);
   const titleInputRef = useRef(null);
+  const dispatch = useDispatch();
+  const { folders, currentFolder } = useSelector(state => state.folders);
+  const { show, date } = useSelector(state => state.sidebar);
   const [dueDate, setDueDate] = useState(date);
   const [taskValues, setTaskValues] = useState({
     title: '',
@@ -83,7 +84,21 @@ const NewTask = () => {
 
   return (
     <NewTaskForm show={show} onSubmit={handleSubmit}>
-      <h2>New task</h2>
+      <header
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <h2>New task</h2>
+        <i
+          style={{ fontSize: '2em', cursor: 'pointer' }}
+          aria-label="Close menu"
+          class="fas fa-angle-right"
+          onClick={() => dispatch(hideSidebar())}
+        />
+      </header>
       <label for="title">
         <p>Title*</p>
         <TextInput
@@ -137,6 +152,13 @@ const NewTask = () => {
           </PrioritySelect>
         </div>
       </label>
+      <label for="folder" />
+      <p>Folder</p>
+      <select value={currentFolder?._id}>
+        {folders.map(folder => (
+          <option value={folder._id}>{folder.name}</option>
+        ))}
+      </select>
       <label style={{ width: '100%' }}>
         <p>Due</p>
         <DatePicker

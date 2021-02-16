@@ -29,11 +29,6 @@ describe('Tasks list', () => {
     useSelectorMock.mockReturnValue(tasks);
   });
 
-  it('Renders', () => {
-    const wrapper = shallow(<TaskList />);
-    expect(wrapper.find('TasksContainer')).toHaveLength(1);
-  });
-
   it('Renders a list element', () => {
     const wrapper = shallow(<TaskList />);
     expect(wrapper.find('ul')).toHaveLength(1);
@@ -53,14 +48,17 @@ describe('Task element', () => {
     expect(wrapper.text().includes(tasks[0].title)).toBe(true);
   });
 
-  it('Renders task description', () => {
+  it('Renders task description on click', () => {
     const wrapper = shallow(<Task task={tasks[0]} />);
+    wrapper.find('task-header').simulate('click');
     expect(wrapper.text().includes(tasks[0].description)).toBe(true);
   });
 });
 
 describe('New task form', () => {
+  const useSelectorMock = jest.spyOn(redux, 'useSelector');
   it('Renders a form', () => {
+    useSelectorMock.mockReturnValue({ folders: [], currentFolder: {} });
     const wrapper = shallow(<NewTask />);
     expect(wrapper.find('new-task-form')).toHaveLength(1);
   });
