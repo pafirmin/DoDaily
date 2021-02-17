@@ -10,6 +10,10 @@ const FolderSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'user',
   },
+  isDefault: {
+    type: Boolean,
+    default: false,
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -19,6 +23,7 @@ const FolderSchema = new Schema({
 export interface FolderDoc extends mongoose.Document {
   creator: mongoose.Types.ObjectId;
   name: string;
+  isDefault: boolean;
   date: Date;
 }
 

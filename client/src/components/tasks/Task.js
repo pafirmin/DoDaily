@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { isPast, formatDistanceToNow, parseISO } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
+import { deleteTask, toggleDone } from '../../actions/tasks';
 
 const TaskWrapper = styled.div`
-  /* box-shadow: 0px 0px 4px #c3c3c3; */
   margin: 0 auto;
   padding: 0.5rem 0;
   width: 100%;
-  /* border-radius: 20px; */
   border-bottom: 1px solid #c3c3c3;
+  &:hover button {
+    opacity: 1;
+  }
 `;
 
 const TaskHeader = styled.header`
@@ -40,8 +43,21 @@ const PriorityMarker = styled.i`
   font-size: 1rem;
 `;
 
+const Controls = styled.div`
+  margin-left: auto;
+
+  button {
+    margin-left: 1.5rem;
+    font-size: 1.3em;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: #5b5b5b;
+  }
+`;
+
 const Task = ({ task }) => {
   const [showDescription, setShowDescription] = useState(false);
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
   const toggleDescription = () => {
@@ -66,12 +82,12 @@ const Task = ({ task }) => {
 
   return (
     <TaskWrapper isMobile={isMobile}>
-      <TaskHeader onClick={toggleDescription}>
+      <TaskHeader>
         <PriorityMarker
           colour={getMarkerColour(task)}
           className="fas fa-circle"
         />
-        <div>
+        <div id="task-title" onClick={toggleDescription}>
           <h3>{task.title}</h3>
           {task.dueDate && (
             <time style={{ color: '#5c5c5c' }}>
@@ -80,6 +96,20 @@ const Task = ({ task }) => {
             </time>
           )}
         </div>
+        <Controls>
+          <button
+            title="Mark as done"
+            onClick={() => dispatch(toggleDone(task))}
+          >
+            <i className="fas fa-check"></i>
+          </button>
+          <button
+            title="Delete task"
+            onClick={() => dispatch(deleteTask(task))}
+          >
+            <i className="far fa-trash-alt"></i>
+          </button>
+        </Controls>
       </TaskHeader>
       {showDescription && <TaskDescription>{task.description}</TaskDescription>}
     </TaskWrapper>

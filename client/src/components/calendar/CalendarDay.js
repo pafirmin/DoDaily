@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setDate } from '../../actions/sidebar';
+import { isToday } from 'date-fns';
 import styled from 'styled-components';
 
 const DayWrapper = styled.div`
@@ -11,6 +12,7 @@ const DayWrapper = styled.div`
 `;
 
 const DayContent = styled.div`
+  border: ${props => (props.isToday ? '2px solid #ea4e4e' : 'none')};
   background-color: ${props => (props.tasks ? '#c8f7ae' : '#f1f1f1;')};
   position: absolute;
   top: 0;
@@ -22,9 +24,14 @@ const DayContent = styled.div`
 
 const CalendarDay = ({ day, date, tasks }) => {
   const dispatch = useDispatch();
+
   return (
     <DayWrapper>
-      <DayContent tasks={tasks} onClick={() => dispatch(setDate(date))}>
+      <DayContent
+        isToday={isToday(date)}
+        tasks={tasks}
+        onClick={() => dispatch(setDate(date))}
+      >
         <span>{day}</span>
       </DayContent>
     </DayWrapper>

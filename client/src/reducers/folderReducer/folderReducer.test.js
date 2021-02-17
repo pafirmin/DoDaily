@@ -42,7 +42,7 @@ describe('Folder Reducer', () => {
     const newState = folderReducer(null, action);
 
     expect(newState.folders).toHaveLength(2);
-    expect(newState.currentFolder).toEqual(state.folders[0]);
+    expect(newState.currentFolder).toEqual('SUMMARY');
   });
 
   it('Returns new state on NEW_FOLDER action', () => {

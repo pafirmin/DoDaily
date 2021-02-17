@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Folder, { FolderDoc } from '../models/Folder';
 
 const newUser = [
   check('password', 'Password must be at least 6 characters').isLength({
@@ -22,7 +23,7 @@ const newUser = [
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password, defaultFolderName } = req.body;
 
       let user = await User.findOne({ email: email });
       if (user) {
@@ -35,6 +36,15 @@ const newUser = [
       const hashedPassword: string = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
 
+      const folder: FolderDoc = new Folder({
+        name: defaultFolderName,
+        creator: user._id,
+        isDefault: true,
+      });
+
+      user.folders.push(folder._id);
+
+      await folder.save();
       await user.save();
 
       const payload = {
@@ -44,15 +54,27 @@ const newUser = [
         },
       };
 
-      const secret = process.env.JWT_SECRET;
+      const secret: string | undefined = process.env.JWT_SECRET;
       if (!secret) {
         throw 'JWT secret is undefined';
       }
-      let userToken: string = jwt.sign(payload, secret, {
-        expiresIn: 300000,
+
+      const accessToken: string = jwt.sign(payload, secret, {
+        expiresIn: '15m',
       });
 
-      return res.json({ token: userToken, username: user.username });
+      const refreshToken: string = jwt.sign(payload, secret, {
+        expiresIn: '7d',
+      });
+
+      return res
+        .cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          sameSite: false,
+          secure: true,
+          expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        })
+        .json({ token: accessToken, username: user.username });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Button, TextInput, TextArea } from '../shared';
 import { useDispatch, useSelector } from 'react-redux';
 import { newTask } from '../../actions/tasks';
-import { hideSidebar } from '../../actions/sidebar';
-// import DatePicker from 'react-datepicker';
-import { subDays, endOfToday, endOfTomorrow } from 'date-fns';
-// import 'react-datepicker/dist/react-datepicker.css';
+import { hideSidebar, setDate } from '../../actions/sidebar';
+import DatePicker from 'react-datepicker';
+import { isSameMinute, endOfToday, endOfTomorrow, subDays } from 'date-fns';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const NewTaskForm = styled.form`
   position: fixed;
@@ -37,7 +37,7 @@ const NewTaskForm = styled.form`
 `;
 NewTaskForm.displayName = 'new-task-form';
 
-const PrioritySelect = styled.button`
+const SelectButton = styled.button`
   border-radius: 6px;
   flex: 1;
   padding: 0.3rem;
@@ -60,7 +60,6 @@ const NewTask = () => {
   const dispatch = useDispatch();
   const { folders, currentFolder } = useSelector(state => state.folders);
   const { show, date } = useSelector(state => state.sidebar);
-  const [dueDate, setDueDate] = useState(date);
   const [taskValues, setTaskValues] = useState({
     title: '',
     description: '',
@@ -73,14 +72,10 @@ const NewTask = () => {
     show && titleInputRef.current.focus();
   }, [show]);
 
-  useEffect(() => {
-    setDueDate(date);
-  }, [date]);
-
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(newTask({ ...taskValues, dueDate }, currentFolder));
+    dispatch(newTask({ ...taskValues, dueDate: date }, currentFolder));
   };
 
   const handleChange = e => {
@@ -131,7 +126,7 @@ const NewTask = () => {
       <label htmlFor="priority">
         <p>Priority*</p>
         <ButtonGroup>
-          <PrioritySelect
+          <SelectButton
             type="button"
             name="priority"
             value="LOW"
@@ -139,8 +134,8 @@ const NewTask = () => {
             onClick={handleChange}
           >
             Low
-          </PrioritySelect>
-          <PrioritySelect
+          </SelectButton>
+          <SelectButton
             type="button"
             name="priority"
             value="MEDIUM"
@@ -148,8 +143,8 @@ const NewTask = () => {
             onClick={handleChange}
           >
             Medium
-          </PrioritySelect>
-          <PrioritySelect
+          </SelectButton>
+          <SelectButton
             type="button"
             name="priority"
             value="HIGH"
@@ -157,12 +152,12 @@ const NewTask = () => {
             onClick={handleChange}
           >
             High
-          </PrioritySelect>
+          </SelectButton>
         </ButtonGroup>
       </label>
       <label htmlFor="folder" />
       <p>Folder</p>
-      <select value={currentFolder?._id}>
+      <select value={currentFolder?._id || folders[0]?._id}>
         {folders.map(folder => (
           <option key={folder._id} value={folder._id}>
             {folder.name}
@@ -172,31 +167,31 @@ const NewTask = () => {
       <label style={{ width: '100%' }}>
         <p>When?</p>
         <ButtonGroup>
-          <PrioritySelect
+          <SelectButton
             type="button"
-            onClick={() => setDueDate(today)}
-            isSelected={dueDate === today}
+            onClick={() => dispatch(setDate(today))}
+            isSelected={isSameMinute(date, today)}
           >
             By end of day
-          </PrioritySelect>
-          <PrioritySelect
+          </SelectButton>
+          <SelectButton
             type="button"
-            onClick={() => setDueDate(tomorrow)}
-            isSelected={dueDate === tomorrow}
+            onClick={() => dispatch(setDate(tomorrow))}
+            isSelected={isSameMinute(date, tomorrow)}
           >
             Tomorrow
-          </PrioritySelect>
+          </SelectButton>
         </ButtonGroup>
-        {/* <DatePicker
-          className="date-picker"
-          selected={dueDate}
-          showTimeSelect
-          onChange={date => setDueDate(date)}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          minDate={subDays(new Date(), 0)}
-          popperPlacement="bottom-end"
-        /> */}
       </label>
+      <DatePicker
+        className="date-picker"
+        selected={date}
+        showTimeSelect
+        onChange={val => dispatch(setDate(val))}
+        dateFormat="MMMM d, yyyy h:mm aa"
+        minDate={subDays(new Date(), 0)}
+        popperPlacement="bottom-end"
+      />
       <Button>Add task</Button>
     </NewTaskForm>
   );

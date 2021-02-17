@@ -35,6 +35,10 @@ const SignupForm = () => {
           Choose a secure password:
           <input type="password" name="password" onChange={handleChange} />
         </label>
+        <label htmlFor="defaultFolderName">
+          Choose a name for your default folder:
+          <input type="text" name="defaultFolderName" onChange={handleChange} />
+        </label>
         <Button>Create Account</Button>
       </form>
     </div>

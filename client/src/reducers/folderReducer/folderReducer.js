@@ -7,7 +7,7 @@ import {
 } from '../../actions/types';
 
 const initialState = {
-  currentFolder: null,
+  currentFolder: 'SUMMARY',
   folders: [],
 };
 
@@ -21,7 +21,7 @@ const folderReducer = (state = initialState, action) => {
       };
     case GET_FOLDERS:
       return {
-        currentFolder: 'SUMMARY',
+        currentFolder: data[0],
         folders: data,
       };
     case NEW_FOLDER:

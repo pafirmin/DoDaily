@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import Task from './Task';
 import { useMediaQuery } from 'react-responsive';
-import { isToday, parseISO, startOfTomorrow } from 'date-fns';
+import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../shared';
 import styled from 'styled-components';
-import { toggleSidebar } from '../../actions/sidebar';
+import { setDate } from '../../actions/sidebar';
 
 const ListWrapper = styled.div`
   margin: 0 auto;
@@ -27,30 +27,32 @@ const TaskList = () => {
   const tasks = useSelector(state => state.tasks);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
-  const todayTasks = useMemo(
+  const todayTasks = useCallback(
     () => tasks.filter(task => isToday(parseISO(task.dueDate))),
     [tasks]
   );
-  const futureTasks = useMemo(
+  const futureTasks = useCallback(
     () => tasks.filter(task => parseISO(task.dueDate) > startOfTomorrow()),
     [tasks]
   );
 
+  const handleAddTask = () => {
+    dispatch(setDate(endOfToday()));
+  };
+
   return (
     <ListWrapper isMobile={isMobile}>
-      <AddTaskBtn onClick={() => dispatch(toggleSidebar())}>
-        Add a task
-      </AddTaskBtn>
+      <AddTaskBtn onClick={handleAddTask}>Add a task</AddTaskBtn>
       <h3>Today</h3>
       {!todayTasks.length && <p style={{ margin: '1rem 2rem' }}>All clear!</p>}
       <ul>
-        {todayTasks.map(task => (
+        {todayTasks().map(task => (
           <Task key={task._id} task={task} />
         ))}
       </ul>
       <h3>Upcoming</h3>
       <ul>
-        {futureTasks.map(task => (
+        {futureTasks().map(task => (
           <Task key={task._id} task={task} />
         ))}
       </ul>

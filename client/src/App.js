@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import LoginForm from './components/auth/login-form/LoginForm';
+import SignupForm from './components/auth/signup-form/SignupForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { refreshToken } from './actions/auth';
 import MainWrapper from './components/main-wrapper/MainWrapper';
@@ -22,7 +23,7 @@ const App = () => {
         <GlobalStyle />
         <Alerts />
         <Header />
-        {isAuthenticated ? <MainWrapper /> : <LoginForm />}
+        {isAuthenticated ? <MainWrapper /> : <SignupForm />}
       </ThemeProvider>
     </Fragment>
   );

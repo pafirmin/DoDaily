@@ -82,7 +82,9 @@ const deleteTask = [
           .json({ msg: 'You do not have permission to delete this item' });
       }
 
-      return await task.delete();
+      await task.delete();
+
+      return res.json('Task deleted');
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: '500: Server error' });

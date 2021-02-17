@@ -16,10 +16,11 @@ const getFolders = [
       if (!user) {
         return res.status(404).json({ msg: 'User not found' });
       }
+      const sortedFolders = user.folders.sort((a: any, b: any) =>
+        b.isDefault - a.isDefault || a.name < b.name ? 1 : -1
+      );
 
-      const folders = user.folders.sort((a: any, b: any) => b.date - a.date);
-
-      return res.json(folders);
+      return res.json(sortedFolders);
     } catch (err) {
       console.error(err);
       return res.status(500).json({ msg: 'Server error' });
@@ -95,11 +96,11 @@ const deleteFolder = [
 
       if (!folder) {
         return res.status(404).json({ msg: 'Folder not found' });
-      }
-
-      if (folder.creator.toString() !== req.user.id) {
-        console.log(folder.creator, req.user.id);
-
+      } else if (folder.isDefault) {
+        return res
+          .status(401)
+          .json({ msg: 'Cannot delete your default folder' });
+      } else if (folder.creator.toString() !== req.user.id) {
         return res.status(401).json({ msg: '401: Forbidden' });
       }
 
