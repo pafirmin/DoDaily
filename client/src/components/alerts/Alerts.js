@@ -11,6 +11,7 @@ const AlertsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  z-index: 1000;
 
   & > * + * {
     margin-top: 1rem;

@@ -24,7 +24,7 @@ const CalendarMain = styled.div`
   display: grid;
   width: 100%;
   margin-top: 2rem;
-  gap: 0.3rem;
+  gap: ${props => (props.isMobile ? '0.1rem' : '0.3rem')};
   grid-template-columns: repeat(7, 1fr);
 `;
 
@@ -45,29 +45,19 @@ const Calendar = () => {
   const tasks = useSelector(state => state.tasks);
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
-  const isMobile = useMediaQuery({ query: '(max-width: 800px)' });
+  const isMobile = useMediaQuery({ maxWidth: 800 });
 
   const tasksTable = useMemo(() => {
     let table = {};
 
     tasks.forEach(task => {
-      const dueYear = getYear(parseISO(task.dueDate));
-      const dueMonth = getMonth(parseISO(task.dueDate));
-      const dueDay = getDate(parseISO(task.dueDate));
-      const props = [dueYear, dueMonth, dueDay];
+      const date = parseISO(task.dueDate);
+      const props = [getYear(date), getMonth(date), getDate(date), task._id];
 
-      set(table, props.join('.'), task);
+      set(table, props, task);
     });
     return table;
   }, [tasks]);
-
-  const handleNextMonth = () => {
-    setMonth(month + 1);
-  };
-
-  const handlePrevMonth = () => {
-    setMonth(month - 1);
-  };
 
   const getCalendarEntries = () => {
     const children = [];
@@ -92,10 +82,10 @@ const Calendar = () => {
     <CalendarWrapper isMobile={isMobile}>
       <CalendarHeader
         month={format(new Date(year, month), 'MMMM yyyy')}
-        nextMonth={handleNextMonth}
-        prevMonth={handlePrevMonth}
+        nextMonth={() => setMonth(month + 1)}
+        prevMonth={() => setMonth(month - 1)}
       />
-      <CalendarMain>
+      <CalendarMain isMobile={isMobile}>
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
           <DayHeader key={day}>{day}</DayHeader>
         ))}

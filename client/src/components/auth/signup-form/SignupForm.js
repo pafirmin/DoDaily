@@ -25,19 +25,36 @@ const SignupForm = () => {
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">
           Email:
-          <input type="text" name="email" onChange={handleChange} />
+          <input required type="text" name="email" onChange={handleChange} />
         </label>
         <label htmlFor="username">
           Username:
-          <input type="text" name="username" onChange={handleChange} />
+          <input
+            required
+            type="text"
+            name="username"
+            onChange={handleChange}
+            placeholder="What should we call you?"
+          />
         </label>
         <label htmlFor="password">
           Choose a secure password:
-          <input type="password" name="password" onChange={handleChange} />
+          <input
+            required
+            type="password"
+            name="password"
+            onChange={handleChange}
+          />
         </label>
         <label htmlFor="defaultFolderName">
           Choose a name for your default folder:
-          <input type="text" name="defaultFolderName" onChange={handleChange} />
+          <input
+            required
+            type="text"
+            name="defaultFolderName"
+            onChange={handleChange}
+            placeholder="e.g. 'My day to day', 'Miscellenous'..."
+          />
         </label>
         <Button>Create Account</Button>
       </form>

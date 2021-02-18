@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import Task from './Task';
 import { useMediaQuery } from 'react-responsive';
 import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
@@ -26,12 +26,12 @@ const AddTaskBtn = styled(Button)`
 const TaskList = () => {
   const tasks = useSelector(state => state.tasks);
   const dispatch = useDispatch();
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
-  const todayTasks = useCallback(
+  const isMobile = useMediaQuery({ maxWidth: 600 });
+  const todayTasks = useMemo(
     () => tasks.filter(task => isToday(parseISO(task.dueDate))),
     [tasks]
   );
-  const futureTasks = useCallback(
+  const futureTasks = useMemo(
     () => tasks.filter(task => parseISO(task.dueDate) > startOfTomorrow()),
     [tasks]
   );
@@ -44,15 +44,17 @@ const TaskList = () => {
     <ListWrapper isMobile={isMobile}>
       <AddTaskBtn onClick={handleAddTask}>Add a task</AddTaskBtn>
       <h3>Today</h3>
-      {!todayTasks.length && <p style={{ margin: '1rem 2rem' }}>All clear!</p>}
+      {todayTasks.length === 0 && (
+        <p style={{ margin: '1rem 2rem' }}>All clear!</p>
+      )}
       <ul>
-        {todayTasks().map(task => (
+        {todayTasks.map(task => (
           <Task key={task._id} task={task} />
         ))}
       </ul>
       <h3>Upcoming</h3>
       <ul>
-        {futureTasks().map(task => (
+        {futureTasks.map(task => (
           <Task key={task._id} task={task} />
         ))}
       </ul>

@@ -36,6 +36,7 @@ const getTasks = [
       const tasks = await Task.find({
         folder: req.params.id,
         user: req.user.id,
+        dueDate: { $gt: new Date() },
       }).sort({ dueDate: 'ascending' });
 
       return res.json(tasks);
