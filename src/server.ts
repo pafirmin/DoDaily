@@ -11,7 +11,15 @@ import path from 'path';
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://peaceful-fortress-47523.herokuapp.com/',
+    ],
+    credentials: true,
+  })
+);
 // app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
@@ -24,7 +32,7 @@ app.use('/api/folders', FolderRouter);
 app.use('/api/tasks', TaskRouter);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../client/build/'));
+  app.use(express.static('../client/build'));
   app.get('*', (_req, res) => {
     res.sendFile(
       path.resolve(__dirname, '..', 'client', 'build', 'index.html')
