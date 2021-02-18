@@ -5,7 +5,7 @@ import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../shared';
 import styled from 'styled-components';
-import { setDate } from '../../actions/sidebar';
+import { newTaskWithDate } from '../../actions/sidebar';
 
 const ListWrapper = styled.div`
   margin: 0 auto;
@@ -37,7 +37,7 @@ const TaskList = () => {
   );
 
   const handleAddTask = () => {
-    dispatch(setDate(endOfToday()));
+    dispatch(newTaskWithDate(endOfToday()));
   };
 
   return (

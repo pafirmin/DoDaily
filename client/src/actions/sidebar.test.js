@@ -1,4 +1,9 @@
-import { TOGGLE_SIDEBAR, SHOW_SIDEBAR, HIDE_SIDEBAR, SET_DATE } from './types';
+import {
+  TOGGLE_SIDEBAR,
+  HIDE_SIDEBAR,
+  NEW_TASK_WITH_DATE,
+  SHOW_TASKS_ON_DATE,
+} from './types';
 import configureMockStore from 'redux-mock-store';
 import * as sidebar from './sidebar';
 
@@ -17,7 +22,22 @@ describe('Toggle sidebar action', () => {
   });
 });
 
-describe('Show sidebar action', () => {
+describe('New task with date action', () => {
+  it('Creates a new task with date action', () => {
+    const date = new Date();
+
+    const expectedAction = {
+      type: NEW_TASK_WITH_DATE,
+      data: date,
+    };
+
+    store.dispatch(sidebar.newTaskWithDate(date));
+
+    expect(store.getActions()).toContainEqual(expectedAction);
+  });
+});
+
+describe('Hide sidebar action', () => {
   it('Creates a toggle sidebar action', () => {
     const expectedAction = {
       type: HIDE_SIDEBAR,
@@ -29,28 +49,19 @@ describe('Show sidebar action', () => {
   });
 });
 
-describe('Hide sidebar action', () => {
-  it('Creates a toggle sidebar action', () => {
-    const expectedAction = {
-      type: SHOW_SIDEBAR,
-    };
-
-    store.dispatch(sidebar.showSidebar());
-
-    expect(store.getActions()).toContainEqual(expectedAction);
-  });
-});
-
-describe('Set date action', () => {
-  it('Creates a toggle sidebar action', () => {
+describe('Show tasks on date', () => {
+  it('Creates a show tasks on date action', () => {
     const date = new Date();
 
     const expectedAction = {
-      type: SET_DATE,
-      data: date,
+      type: SHOW_TASKS_ON_DATE,
+      data: {
+        date: date,
+        tasks: ['dummy task'],
+      },
     };
 
-    store.dispatch(sidebar.setDate(date));
+    store.dispatch(sidebar.showTasksOnDate(['dummy task'], date));
 
     expect(store.getActions()).toContainEqual(expectedAction);
   });

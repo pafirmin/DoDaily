@@ -27,6 +27,7 @@ export const ALERT = 'ALERT';
 
 // Sidebar actions
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
-export const SHOW_SIDEBAR = 'SHOW_SIDEBAR';
+export const NEW_TASK_WITH_DATE = 'NEW_TASK_WITH_DATE';
+export const SHOW_TASKS_ON_DATE = 'SHOW_TASKS_ON_DATE';
 export const HIDE_SIDEBAR = 'HIDE_SIDEBAR';
 export const SET_DATE = 'SET_DATE';

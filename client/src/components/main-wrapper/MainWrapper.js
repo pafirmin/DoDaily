@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { getFolders } from '../../actions/folders';
 import FolderList from '../folders/Folders';
+import CalendarTasks from '../sidebars/CalendarTasks';
 import NewTask from '../tasks/NewTask';
 import TasksWrapper from '../tasks/TasksWrapper';
 
@@ -20,6 +21,7 @@ const MainWrapper = () => {
       {!isMobile && <FolderList folders={folders} />}
       <TasksWrapper />
       <NewTask />
+      <CalendarTasks />
     </div>
   );
 };

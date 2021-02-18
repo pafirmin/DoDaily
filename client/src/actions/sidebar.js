@@ -1,15 +1,30 @@
-import { TOGGLE_SIDEBAR, SHOW_SIDEBAR, HIDE_SIDEBAR, SET_DATE } from './types';
+import {
+  TOGGLE_SIDEBAR,
+  HIDE_SIDEBAR,
+  NEW_TASK_WITH_DATE,
+  SHOW_TASKS_ON_DATE,
+  SET_DATE,
+} from './types';
 
-export const toggleSidebar = () => {
-  return { type: TOGGLE_SIDEBAR };
+export const toggleSidebar = id => {
+  return { type: TOGGLE_SIDEBAR, data: id };
 };
 
-export const showSidebar = () => {
-  return { type: SHOW_SIDEBAR };
+export const showTasksOnDate = (tasks, date) => {
+  return {
+    type: SHOW_TASKS_ON_DATE,
+    data: {
+      date: date,
+    },
+  };
 };
 
 export const hideSidebar = () => {
   return { type: HIDE_SIDEBAR };
+};
+
+export const newTaskWithDate = date => {
+  return { type: NEW_TASK_WITH_DATE, data: date };
 };
 
 export const setDate = date => {

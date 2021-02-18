@@ -13,13 +13,14 @@ const folders = [
 
 describe('Folder List', () => {
   const useDispatchMock = jest.spyOn(redux, 'useDispatch');
-  const wrapper = shallow(<FolderList folders={folders} />);
 
   it('Renders', () => {
+    const wrapper = shallow(<FolderList folders={folders} />);
     expect(wrapper.find('SideBar')).toHaveLength(1);
   });
 
   it('Creates a list of folders', () => {
+    const wrapper = shallow(<FolderList folders={folders} />);
     const list = wrapper.find('ul');
 
     expect(list.find(FolderListItem)).toHaveLength(2);
@@ -37,9 +38,10 @@ describe('Folder list item', () => {
 });
 
 describe('New folder form', () => {
-  const wrapper = shallow(<FolderList folders={folders} />);
+  const useDispatchMock = jest.spyOn(redux, 'useDispatch');
 
   it('Is hidden by default', () => {
+    const wrapper = shallow(<FolderList folders={folders} />);
     expect(wrapper.find(NewFolder)).toHaveLength(0);
   });
 

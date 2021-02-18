@@ -16,7 +16,7 @@ describe('Signup Form', () => {
   it('Renders three input fields', () => {
     const wrapper = shallow(<SignupForm />);
 
-    expect(wrapper.find('input')).toHaveLength(3);
+    expect(wrapper.find('input')).toHaveLength(4);
   });
 
   it('Renders a button', () => {

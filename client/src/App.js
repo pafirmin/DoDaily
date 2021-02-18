@@ -23,7 +23,7 @@ const App = () => {
         <GlobalStyle />
         <Alerts />
         <Header />
-        {isAuthenticated ? <MainWrapper /> : <SignupForm />}
+        {isAuthenticated ? <MainWrapper /> : <LoginForm />}
       </ThemeProvider>
     </Fragment>
   );

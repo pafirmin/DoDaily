@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setDate } from '../../actions/sidebar';
+import { setDate, showTasksOnDate } from '../../actions/sidebar';
 import { isToday } from 'date-fns';
 import styled from 'styled-components';
 
@@ -32,7 +32,7 @@ const CalendarDay = ({ day, date, tasks }) => {
       <DayContent
         isToday={isToday(date)}
         tasks={tasks}
-        onClick={e => setShowMenu(!showMenu)}
+        onClick={e => dispatch(showTasksOnDate(tasks, date))}
       >
         <span>{day}</span>
       </DayContent>
