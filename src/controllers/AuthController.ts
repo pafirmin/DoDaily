@@ -68,7 +68,7 @@ const refreshToken = async (req: Request, res: Response) => {
   try {
     const token = req.cookies['refreshToken'];
     if (!token) {
-      return;
+      return res.status(200).json({ msg: 'No refresh token present' });
     }
 
     const secret: string | undefined = process.env.JWT_SECRET;
