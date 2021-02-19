@@ -1,6 +1,6 @@
 import React from 'react';
 import App from './App';
-import { shallow } from 'enzyme';
+import { render, shallow } from 'enzyme';
 import LoginForm from './components/auth/login-form/LoginForm';
 import * as redux from 'react-redux';
 import MainWrapper from './components/main-wrapper/MainWrapper';
@@ -23,7 +23,7 @@ describe('App', () => {
 
   it('Hides content and renders sign-in form when user not authenticated', () => {
     useSelectorMock.mockReturnValue(false);
-    const wrapper = shallow(<App />);
+    const wrapper = render(<App />);
 
     expect(wrapper.containsMatchingElement(Form)).toEqual(true);
     expect(wrapper.containsMatchingElement(Main)).toEqual(false);
@@ -31,7 +31,7 @@ describe('App', () => {
 
   it('Hides sign-in form and renders content when user is authenticated', () => {
     useSelectorMock.mockReturnValue(true);
-    const wrapper = shallow(<App />);
+    const wrapper = render(<App />);
 
     expect(wrapper.containsMatchingElement(Main)).toEqual(true);
     expect(wrapper.containsMatchingElement(Form)).toEqual(false);

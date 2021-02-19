@@ -6,7 +6,7 @@ import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../shared';
 import styled from 'styled-components';
-import { newTaskWithDate } from '../../actions/sidebar';
+import { newTaskWithDate, toggleSidebar } from '../../actions/sidebar';
 import FilterMenu from './FilterMenu';
 
 const ListWrapper = styled.div`
@@ -23,7 +23,7 @@ const Controls = styled.div`
   margin: 1rem auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   position: relative;
 `;
 
@@ -33,10 +33,18 @@ const AddTaskBtn = styled(Button)`
   border-radius: 15px;
 `;
 
+const FolderIcon = styled.i`
+  font-size: 1.8em;
+  color: #9c9c9c;
+  visibility: ${props => (props.breakpoint ? 'visible' : 'hidden')};
+  cursor: pointer;
+`;
+
 const TaskList = () => {
   const tasks = useSelector(state => filterTasks(state.tasks, state.filters));
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 600 });
+  const folderBreakpoint = useMediaQuery({ maxWidth: 1450 });
   const todayTasks = useMemo(
     () => tasks.filter(task => isToday(parseISO(task.dueDate))),
     [tasks]
@@ -53,6 +61,11 @@ const TaskList = () => {
   return (
     <ListWrapper isMobile={isMobile}>
       <Controls>
+        <FolderIcon
+          breakpoint={folderBreakpoint}
+          className="fas fa-folder"
+          onClick={() => dispatch(toggleSidebar(3))}
+        />
         <AddTaskBtn onClick={handleAddTask}>Add a task</AddTaskBtn>
         <FilterMenu />
       </Controls>

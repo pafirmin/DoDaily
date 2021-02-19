@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { setFilter, removeFilter } from '../../actions/filters';
 
 const DropdownWrapper = styled.div`
-  position: absolute;
+  /* position: absolute; */
   right: 0;
   display: inline-block;
   cursor: pointer;
   i {
     font-size: 1.8em;
-    color: #9d9c9c;
+    color: #9c9c9c;
   }
 `;
 

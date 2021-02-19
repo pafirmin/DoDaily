@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setDate, showTasksOnDate } from '../../actions/sidebar';
+import { showTasksOnDate } from '../../actions/sidebar';
 import { isToday } from 'date-fns';
 import styled from 'styled-components';
 

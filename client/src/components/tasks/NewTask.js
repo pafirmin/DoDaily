@@ -88,9 +88,9 @@ const NewTask = () => {
         >
           <h2>New task</h2>
           <i
-            style={{ fontSize: '2em', cursor: 'pointer' }}
+            style={{ fontSize: '2em', cursor: 'pointer', color: '#a7a7a7' }}
             aria-label="Close menu"
-            className="fas fa-angle-right"
+            className="fas fa-times"
             onClick={() => dispatch(hideSidebar())}
           />
         </header>

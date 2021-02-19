@@ -1,5 +1,4 @@
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 import styled, { css, keyframes } from 'styled-components';
 
 const TasksNav = styled.nav`
@@ -60,7 +59,6 @@ const NavItem = styled.h3`
 `;
 
 const TasksHeader = ({ title, currentTab, switchToTab }) => {
-  const isMobile = useMediaQuery({ maxWidth: 600 });
   return (
     <header>
       <h2

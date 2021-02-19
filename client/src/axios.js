@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const defaultOptions = {
-  baseURL: 'http://localhost:5000',
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://peaceful-fortress-47523.herokuapp.com/'
+      : 'http://localhost:5000',
   headers: {
     'Content-Type': 'application/json',
   },

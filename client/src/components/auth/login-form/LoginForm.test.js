@@ -1,7 +1,9 @@
 import React from 'react';
-import { shallow, render, mount } from 'enzyme';
+import { shallow, render } from 'enzyme';
 import LoginForm from './LoginForm';
 import * as redux from 'react-redux';
+import AuthForm from '../AuthForm';
+import { Button } from '../../shared';
 
 describe('Login Form', () => {
   const spy = jest.spyOn(redux, 'useDispatch');
@@ -10,7 +12,7 @@ describe('Login Form', () => {
   it('Renders a form', () => {
     const wrapper = shallow(<LoginForm />);
 
-    expect(wrapper.find('form')).toHaveLength(1);
+    expect(wrapper.find(AuthForm)).toHaveLength(1);
   });
 
   it('Renders two input fields', () => {
@@ -22,6 +24,6 @@ describe('Login Form', () => {
   it('Renders a button', () => {
     const wrapper = render(<LoginForm />);
 
-    expect(wrapper.find('button')).toHaveLength(1);
+    expect(wrapper.find(Button)).toHaveLength(1);
   });
 });
