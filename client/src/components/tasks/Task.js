@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { isPast, formatDistanceToNow, parseISO } from 'date-fns';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
 import { deleteTask, toggleDone } from '../../actions/tasks';
 
@@ -18,12 +18,11 @@ const TaskWrapper = styled.div`
 const TaskHeader = styled.header`
   padding: 0.3rem 0.5rem;
   color: #1b1b1b;
-  height: 50%;
   display: flex;
   align-items: center;
   cursor: pointer;
 
-  h3 {
+  h4 {
     font-size: 1.3em;
     font-weight: 600;
   }
@@ -88,7 +87,7 @@ const Task = ({ task }) => {
           className="fas fa-circle"
         />
         <div id="task-title" onClick={toggleDescription}>
-          <h3>{task.title}</h3>
+          <h4>{task.title}</h4>
           {task.dueDate && (
             <time style={{ color: '#5c5c5c' }}>
               Due{' '}

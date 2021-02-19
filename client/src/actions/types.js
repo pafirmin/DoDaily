@@ -31,3 +31,7 @@ export const NEW_TASK_WITH_DATE = 'NEW_TASK_WITH_DATE';
 export const SHOW_TASKS_ON_DATE = 'SHOW_TASKS_ON_DATE';
 export const HIDE_SIDEBAR = 'HIDE_SIDEBAR';
 export const SET_DATE = 'SET_DATE';
+
+// Filter actions
+export const SET_FILTER = 'SET_FILTER';
+export const REMOVE_FILTER = 'REMOVE_FILTER';

@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import Task from './Task';
+import filterTasks from '../../helpers/filters';
 import { useMediaQuery } from 'react-responsive';
 import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../shared';
 import styled from 'styled-components';
 import { newTaskWithDate } from '../../actions/sidebar';
+import { setFilter, removeFilter } from '../../actions/filters';
 
 const ListWrapper = styled.div`
   margin: 0 auto;
@@ -13,6 +15,7 @@ const ListWrapper = styled.div`
 
   h3 {
     font-size: 1.4em;
+    margin: 1.4rem 0 0.8rem 0;
   }
 `;
 
@@ -24,7 +27,7 @@ const AddTaskBtn = styled(Button)`
 `;
 
 const TaskList = () => {
-  const tasks = useSelector(state => state.tasks);
+  const tasks = useSelector(state => filterTasks(state.tasks, state.filters));
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 600 });
   const todayTasks = useMemo(
@@ -40,8 +43,34 @@ const TaskList = () => {
     dispatch(newTaskWithDate(endOfToday()));
   };
 
+  const handleFilter = e => {
+    dispatch(
+      e.target.checked
+        ? setFilter(e.target.value)
+        : removeFilter(e.target.value)
+    );
+  };
+
   return (
     <ListWrapper isMobile={isMobile}>
+      <label htmlFor="urgent-only">
+        <input
+          id="urgent-only"
+          type="checkbox"
+          value="URGENT_ONLY"
+          onChange={handleFilter}
+        />
+        Urgent only
+      </label>
+      <label htmlFor="hide-complete">
+        <input
+          id="hide-complete"
+          type="checkbox"
+          value="HIDE_DONE"
+          onChange={handleFilter}
+        />
+        Hide complete
+      </label>
       <AddTaskBtn onClick={handleAddTask}>Add a task</AddTaskBtn>
       <h3>Today</h3>
       {todayTasks.length === 0 && (

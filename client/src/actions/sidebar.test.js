@@ -4,8 +4,8 @@ import {
   NEW_TASK_WITH_DATE,
   SHOW_TASKS_ON_DATE,
 } from './types';
-import configureMockStore from 'redux-mock-store';
 import * as sidebar from './sidebar';
+import configureMockStore from 'redux-mock-store';
 
 const mockStore = configureMockStore();
 const store = mockStore({ sidebar: { show: false, date: undefined } });
@@ -57,7 +57,6 @@ describe('Show tasks on date', () => {
       type: SHOW_TASKS_ON_DATE,
       data: {
         date: date,
-        tasks: ['dummy task'],
       },
     };
 

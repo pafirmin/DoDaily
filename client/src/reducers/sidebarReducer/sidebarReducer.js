@@ -16,7 +16,7 @@ const sidebarReducer = (state = initialState, action) => {
     case HIDE_SIDEBAR:
       return { ...state, show: false };
     case NEW_TASK_WITH_DATE:
-      return { ...state, show: 1, date: data.date };
+      return { ...state, show: 1, date: data };
     case SHOW_TASKS_ON_DATE:
       return { show: 2, date: data.date };
     case SET_DATE:

@@ -81,7 +81,7 @@ h2 {
 `;
 
 export const MainTheme = {
-  headerHeight: '100px',
+  headerHeight: '70px',
   primaryColour: '#672a6c',
   secondaryColour: '#5e6aaa',
 };

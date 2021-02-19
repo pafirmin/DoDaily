@@ -6,6 +6,7 @@ import taskReducer from '../reducers/taskReducer/taskReducer';
 import authReducer from '../reducers/authReducer/authReducer';
 import alertsReducer from '../reducers/alertaReducer/alertsReducer';
 import sidebarReducer from '../reducers/sidebarReducer/sidebarReducer';
+import filterReducer from '../reducers/filterReducer/filterReducer';
 
 const reducer = combineReducers({
   folders: folderReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   auth: authReducer,
   alerts: alertsReducer,
   sidebar: sidebarReducer,
+  filters: filterReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

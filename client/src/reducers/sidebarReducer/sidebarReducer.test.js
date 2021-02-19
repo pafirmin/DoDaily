@@ -9,7 +9,7 @@ import sidebarReducer from './sidebarReducer';
 describe('Sidebar reducer', () => {
   it('Sets date and correct sidebar on NEW_TASK_WITH_DATE', () => {
     const date = new Date();
-    const initialState = { show: false, date: undefined, tasks: [] };
+    const initialState = { show: false, date: undefined };
     const action = {
       type: NEW_TASK_WITH_DATE,
       data: {
@@ -34,12 +34,11 @@ describe('Sidebar reducer', () => {
   });
 
   it('Sets task and sidebar 2 on SHOW_TASKS_ON_DATE', () => {
-    const initialState = { show: true, date: undefined, tasks: [] };
+    const initialState = { show: true, date: undefined };
     const date = new Date();
     const action = {
       type: SHOW_TASKS_ON_DATE,
       data: {
-        tasks: ['dummy task'],
         show: 2,
         date: date,
       },
