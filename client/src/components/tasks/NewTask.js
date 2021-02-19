@@ -60,7 +60,7 @@ const NewTask = () => {
   const tomorrow = useMemo(() => endOfTomorrow(), [show]);
 
   useEffect(() => {
-    show && titleInputRef.current.focus();
+    show === SIDEBAR_ID && titleInputRef.current.focus();
   }, [show]);
 
   const handleSubmit = e => {

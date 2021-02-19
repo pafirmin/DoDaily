@@ -35,7 +35,7 @@ const CalendarDay = ({ day, date, tasks }) => {
       <DayContent
         isToday={isToday(date)}
         tasks={tasks}
-        onClick={e => dispatch(showTasksOnDate(tasks, date))}
+        onClick={e => dispatch(showTasksOnDate(date))}
       >
         <span>{day}</span>
       </DayContent>

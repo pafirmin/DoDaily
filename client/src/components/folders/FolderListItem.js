@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { StyledLi } from '../shared';
 import { setCurrentFolder } from '../../actions/folders';
+import { hideSidebar } from '../../actions/sidebar';
 
 const FolderListItem = ({ folder }) => {
   const dispatch = useDispatch();

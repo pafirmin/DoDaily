@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import folderReducer from '../reducers/folderReducer/folderReducer';
 import taskReducer from '../reducers/taskReducer/taskReducer';
 import authReducer from '../reducers/authReducer/authReducer';
-import alertsReducer from '../reducers/alertaReducer/alertsReducer';
+import alertsReducer from '../reducers/alertsReducer/alertsReducer';
 import sidebarReducer from '../reducers/sidebarReducer/sidebarReducer';
 import filterReducer from '../reducers/filterReducer/filterReducer';
 

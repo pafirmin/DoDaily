@@ -10,7 +10,7 @@ export const toggleSidebar = id => {
   return { type: TOGGLE_SIDEBAR, data: id };
 };
 
-export const showTasksOnDate = (tasks, date) => {
+export const showTasksOnDate = date => {
   return {
     type: SHOW_TASKS_ON_DATE,
     data: {

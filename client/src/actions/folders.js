@@ -7,8 +7,10 @@ import {
   DELETE_FOLDER,
   GET_TASKS,
 } from '../actions/types';
+import { hideSidebar } from './sidebar';
 
-export const setCurrentFolder = folder => {
+export const setCurrentFolder = folder => dispatch => {
+  dispatch(hideSidebar());
   return {
     type: SET_FOLDER,
     data: folder,

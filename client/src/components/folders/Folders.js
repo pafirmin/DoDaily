@@ -11,14 +11,14 @@ import { hideSidebar } from '../../actions/sidebar';
 
 const SideBar = styled.aside`
   background-color: #f3f3f3;
-  width: 350px;
+  width: ${props => (props.isMobile ? '100%' : '350px')};
   padding: 1.5rem;
   position: fixed;
-  left: ${props => (props.breakpoint ? (props.show ? '0' : '-400px') : '0')};
+  left: ${props => (props.breakpoint ? (props.show ? '0' : '-100%') : '0')};
   top: ${props => props.theme.headerHeight};
   min-height: ${props => `calc(100vh - ${props.theme.headerHeight})`};
   color: #1b1b1b;
-  overflow: auto;
+  overflow-y: auto;
   box-shadow: 5px 0px 12px #c3c3c3;
   transition: 0.3s;
   z-index: 500;
@@ -32,12 +32,17 @@ SideBar.displayName = 'SideBar';
 const FolderList = ({ folders }) => {
   const SIDEBAR_ID = 3;
   const breakpoint = useMediaQuery({ maxWidth: 1450 });
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
   const show = useSelector(state => state.sidebar.show);
 
   return (
-    <SideBar show={show === SIDEBAR_ID} breakpoint={breakpoint}>
+    <SideBar
+      isMobile={isMobile}
+      show={show === SIDEBAR_ID}
+      breakpoint={breakpoint}
+    >
       <header
         style={{
           display: 'flex',
