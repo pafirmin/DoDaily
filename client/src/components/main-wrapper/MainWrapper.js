@@ -8,7 +8,7 @@ import NewTask from '../tasks/NewTask';
 import TasksWrapper from '../tasks/TasksWrapper';
 
 const MainWrapper = () => {
-  const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   const dispatch = useDispatch();
   const folders = useSelector(state => state.folders.folders);
 

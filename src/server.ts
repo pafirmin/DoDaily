@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000',
-      'https://peaceful-fortress-47523.herokuapp.com/',
+      'https://peaceful-fortress-47523.herokuapp.com/*',
     ],
     credentials: true,
   })
@@ -32,6 +32,7 @@ app.use('/api/folders', FolderRouter);
 app.use('/api/tasks', TaskRouter);
 
 const root = path.join(__dirname, '..', 'client', 'build');
+
 app.use(express.static(root));
 app.get('*', (_req, res) => {
   res.sendFile('index.html', { root });

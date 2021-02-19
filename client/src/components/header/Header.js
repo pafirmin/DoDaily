@@ -11,7 +11,8 @@ const MainHeader = styled.header`
   padding: 0 2rem;
   color: #fff;
   background: ${props => props.theme.primaryColour};
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1000;
 `;
 MainHeader.displayName = 'MainHeader';

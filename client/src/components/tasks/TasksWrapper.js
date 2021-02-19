@@ -11,6 +11,7 @@ const TasksContainer = styled.div`
   position: relative;
   width: 1200px;
   overflow-x: hidden;
+  margin: 0 auto;
 `;
 TasksContainer.displayName = 'TasksContainer';
 

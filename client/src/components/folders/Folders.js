@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import FolderListItem from './FolderListItem';
 import { StyledLi } from '../shared';
@@ -11,6 +12,9 @@ const SideBar = styled.aside`
   background-color: #f3f3f3;
   width: 350px;
   padding: 1.5rem;
+  position: fixed;
+  left: ${props => (props.breakpoint ? '-400px' : '0')};
+  top: ${props => props.theme.headerHeight};
   min-height: ${props => `calc(100vh - ${props.theme.headerHeight})`};
   color: #1b1b1b;
   overflow: auto;
@@ -23,11 +27,12 @@ const SideBar = styled.aside`
 SideBar.displayName = 'SideBar';
 
 const FolderList = ({ folders }) => {
+  const breakpoint = useMediaQuery({ maxWidth: 1450 });
   const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
 
   return (
-    <SideBar>
+    <SideBar breakpoint={breakpoint}>
       <header
         style={{
           display: 'flex',

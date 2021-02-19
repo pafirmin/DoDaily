@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../../shared';
 import { register } from '../../../actions/auth';
+import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
+import AuthForm from '../AuthForm';
+import AuthFormWrapper from '../AuthFormWrapper';
 
 const SignupForm = () => {
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     email: '',
@@ -21,11 +26,26 @@ const SignupForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <AuthFormWrapper isMobile={isMobile}>
+      <h2>Sign up</h2>
+      <div style={{ textAlign: 'center', marginTop: '.8rem' }}>
+        <p>
+          Already have an account?
+          <p style={{ textDecoration: 'underline' }}>
+            <Link to="/">Return home to login</Link>
+          </p>
+        </p>
+      </div>
+      <AuthForm onSubmit={handleSubmit}>
         <label htmlFor="email">
           Email:
-          <input required type="text" name="email" onChange={handleChange} />
+          <input
+            required
+            type="text"
+            name="email"
+            onChange={handleChange}
+            placeholder="example@example.com"
+          />
         </label>
         <label htmlFor="username">
           Username:
@@ -47,7 +67,7 @@ const SignupForm = () => {
           />
         </label>
         <label htmlFor="defaultFolderName">
-          Choose a name for your default folder:
+          Name your default folder:
           <input
             required
             type="text"
@@ -57,8 +77,8 @@ const SignupForm = () => {
           />
         </label>
         <Button>Create Account</Button>
-      </form>
-    </div>
+      </AuthForm>
+    </AuthFormWrapper>
   );
 };
 

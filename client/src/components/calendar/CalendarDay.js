@@ -10,6 +10,9 @@ const DayWrapper = styled.div`
   position: relative;
   overflow-y: hidden;
   cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 2px #a1a1a1;
+  }
 `;
 
 const DayContent = styled.div`

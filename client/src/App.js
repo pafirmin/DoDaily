@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import LoginForm from './components/auth/login-form/LoginForm';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignupForm from './components/auth/signup-form/SignupForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { refreshToken } from './actions/auth';
@@ -19,12 +20,21 @@ const App = () => {
 
   return (
     <Fragment>
-      <ThemeProvider theme={MainTheme}>
-        <GlobalStyle />
-        <Alerts />
-        <Header />
-        {isAuthenticated ? <MainWrapper /> : <LoginForm />}
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={MainTheme}>
+          <GlobalStyle />
+          <Alerts />
+          <Header />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={isAuthenticated ? MainWrapper : LoginForm}
+            />
+            <Route path="/createaccount" component={SignupForm} />
+          </Switch>
+        </ThemeProvider>
+      </Router>
     </Fragment>
   );
 };

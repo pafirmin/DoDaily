@@ -10,6 +10,9 @@ const GlobalStyle = createGlobalStyle`
   vertical-align: baseline;
   box-sizing: border-box;
 }
+*:focus {
+  outline: none;
+}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,

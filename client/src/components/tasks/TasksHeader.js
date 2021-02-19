@@ -66,7 +66,7 @@ const TasksHeader = ({ title, currentTab, switchToTab }) => {
       <h2
         style={{
           paddingBottom: '.4rem',
-          textAlign: isMobile ? 'center' : 'left',
+          textAlign: 'center',
         }}
       >
         {title}

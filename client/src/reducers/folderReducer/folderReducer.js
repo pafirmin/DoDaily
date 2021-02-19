@@ -27,7 +27,7 @@ const folderReducer = (state = initialState, action) => {
     case NEW_FOLDER:
       return {
         ...state,
-        folders: [data, ...state.folders],
+        folders: [...state.folders, data],
       };
     case RENAME_FOLDER:
       return {

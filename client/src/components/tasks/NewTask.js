@@ -14,7 +14,7 @@ const NewTaskForm = styled.form`
   flex-direction: column;
   align-items: center;
   & p {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
   }
 
   & > * + * {
@@ -147,15 +147,19 @@ const NewTask = () => {
             </SelectButton>
           </ButtonGroup>
         </label>
-        <label htmlFor="folder" />
-        <p>Folder</p>
-        <select value={currentFolder?._id || folders[0]?._id}>
-          {folders.map(folder => (
-            <option key={folder._id} value={folder._id}>
-              {folder.name}
-            </option>
-          ))}
-        </select>
+        <label htmlFor="folder">
+          <p>Folder</p>
+          <select
+            value={currentFolder?._id || folders[0]?._id}
+            style={{ width: '100%' }}
+          >
+            {folders.map(folder => (
+              <option key={folder._id} value={folder._id}>
+                {folder.name}
+              </option>
+            ))}
+          </select>
+        </label>
         <label style={{ width: '100%' }}>
           <p>When?</p>
           <ButtonGroup>
