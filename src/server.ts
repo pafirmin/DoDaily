@@ -20,16 +20,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptStc: ["'self'", "'https://*.fontawesome.com/'"],
-      },
-    },
-  })
-);
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
