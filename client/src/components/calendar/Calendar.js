@@ -47,16 +47,20 @@ const Calendar = () => {
   const [year, setYear] = useState(today.getFullYear());
   const isMobile = useMediaQuery({ maxWidth: 800 });
 
-  const tasksTable = useMemo(() => {
-    let table = {};
+  const tasksMap = useMemo(() => {
+    const map = new Map();
 
     tasks.forEach(task => {
       const date = parseISO(task.dueDate);
-      const props = [getYear(date), getMonth(date), getDate(date), task._id];
+      const key = [getYear(date), getMonth(date), getDate(date)].join('-');
 
-      set(table, props, task);
+      if (map.has(key)) {
+        map.get(key).push(task);
+      } else {
+        map.set(key, new Array(task));
+      }
     });
-    return table;
+    return map;
   }, [tasks]);
 
   const getCalendarEntries = () => {
@@ -68,11 +72,11 @@ const Calendar = () => {
       children.push(<BlankDay key={i} />);
     }
     for (let day = 1; day <= daysInMonth; day++) {
-      const tasks = tasksTable[year]?.[month]?.[day];
+      const dayTasks = tasksMap.get([year, month, day].join('-'));
       const date = new Date(year, month, day);
 
       children.push(
-        <CalendarDay key={date} day={day} date={date} tasks={tasks} />
+        <CalendarDay key={date} day={day} date={date} tasks={dayTasks} />
       );
     }
     return children;

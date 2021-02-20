@@ -30,10 +30,10 @@ const LoginForm = () => {
       <h2>Please sign in</h2>
       <div style={{ textAlign: 'center', marginTop: '.8rem' }}>
         <p>
-          No account? No problem.
-          <p style={{ textDecoration: 'underline' }}>
+          No account? No problem. <br />
+          <span style={{ textDecoration: 'underline' }}>
             <Link to="/createaccount">Create one here</Link>
-          </p>
+          </span>
         </p>
       </div>
       <AuthForm onSubmit={handleSubmit}>
