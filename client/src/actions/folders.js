@@ -11,10 +11,10 @@ import { hideSidebar } from './sidebar';
 
 export const setCurrentFolder = folder => dispatch => {
   dispatch(hideSidebar());
-  return {
+  dispatch({
     type: SET_FOLDER,
     data: folder,
-  };
+  });
 };
 
 export const newFolder = folderData => async dispatch => {

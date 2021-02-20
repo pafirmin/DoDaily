@@ -1,5 +1,6 @@
 import axios from '../axios';
 import { clearAlerts, createAlert } from './alerts';
+import { hideSidebar } from './sidebar';
 import {
   ADD_NOTE,
   GET_TASKS,
@@ -20,6 +21,7 @@ export const newTask = (task, folder) => async dispatch => {
       type: NEW_TASK,
       data: res.data,
     });
+    dispatch(hideSidebar());
     dispatch(createAlert('Task created!', 'SUCCESS'));
   } catch (err) {
     console.error(err);

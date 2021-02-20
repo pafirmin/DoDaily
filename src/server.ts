@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-// import helmet from 'helmet';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import connectDB from './db';
 import UserRouter from './routes/users';
@@ -20,7 +20,7 @@ app.use(
     credentials: true,
   })
 );
-// app.use(helmet());
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
