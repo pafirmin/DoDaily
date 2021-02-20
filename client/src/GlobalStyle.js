@@ -56,6 +56,7 @@ button {
   cursor: pointer;
   font: inherit;
   color: inherit;
+  -webkit-tap-highlight-color: none;
 }
 button:focus {
     outline: none;

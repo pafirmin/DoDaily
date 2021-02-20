@@ -25,13 +25,12 @@ const App = () => {
           <GlobalStyle />
           <Alerts />
           <Header />
-          <MainWrapper />
           <Switch>
-            {/* <Route
+            <Route
               exact
               path="/"
               component={isAuthenticated ? MainWrapper : LoginForm}
-            /> */}
+            />
             <Route path="/createaccount" component={SignupForm} />
           </Switch>
         </ThemeProvider>
