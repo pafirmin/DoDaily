@@ -9,6 +9,7 @@ import Header from './components/header/Header';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle, { MainTheme } from './GlobalStyle';
 import Alerts from './components/alerts/Alerts';
+import './styles.css';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
