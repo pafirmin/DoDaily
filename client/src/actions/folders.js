@@ -5,7 +5,6 @@ import {
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
-  GET_TASKS,
 } from '../actions/types';
 import { hideSidebar } from './sidebar';
 

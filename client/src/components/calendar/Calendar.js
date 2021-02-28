@@ -1,31 +1,29 @@
-import React, { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
-import styled from 'styled-components';
-import {
-  getDaysInMonth,
-  getDate,
-  getDay,
-  parseISO,
-  getMonth,
-  getYear,
-  format,
-} from 'date-fns';
-import CalendarDay from './CalendarDay';
-import CalendarHeader from './CalendarHeader';
-import { set } from 'lodash';
+import React, { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import { getDaysInMonth, getDay, addDays, parseISO, format } from "date-fns";
+import CalendarDay from "./CalendarDay";
+import CalendarHeader from "./CalendarHeader";
 
 const CalendarWrapper = styled.div`
-  width: ${props => (props.isMobile ? '100%' : '70%')};
+  width: 70%;
   margin: 2rem auto;
+
+  @media (maxwidth: 800px) {
+    width: 100%;
+  }
 `;
 
 const CalendarMain = styled.div`
   display: grid;
   width: 100%;
   margin-top: 2rem;
-  gap: ${props => (props.isMobile ? '0.1rem' : '0.3rem')};
+  gap: 0.3rem;
   grid-template-columns: repeat(7, 1fr);
+
+  @media (max-width: 800px) {
+    gap: 0.1rem;
+  }
 `;
 
 const BlankDay = styled.div`
@@ -36,23 +34,22 @@ const BlankDay = styled.div`
 
 const DayHeader = styled.div`
   padding: 0.3em;
-  background-color: ${props => props.theme.secondaryColour};
+  background-color: ${(props) => props.theme.secondaryColour};
   color: #fff;
 `;
 
 const Calendar = () => {
   const today = new Date();
-  const tasks = useSelector(state => state.tasks);
+  const baseYear = today.getYear();
+  const tasks = useSelector((state) => state.tasks);
   const [month, setMonth] = useState(today.getMonth());
-  const [year, setYear] = useState(today.getFullYear());
-  const isMobile = useMediaQuery({ maxWidth: 800 });
 
   const tasksMap = useMemo(() => {
     const map = new Map();
 
-    tasks.forEach(task => {
+    tasks.forEach((task) => {
       const date = parseISO(task.dueDate);
-      const key = [getYear(date), getMonth(date), getDate(date)].join('-');
+      const key = [date.getYear(), date.getMonth(), date.getDate()].join("-");
 
       if (map.has(key)) {
         map.get(key).push(task);
@@ -65,32 +62,35 @@ const Calendar = () => {
 
   const getCalendarEntries = () => {
     const children = [];
-    const daysInMonth = getDaysInMonth(new Date(year, month));
-    const firstDay = getDay(new Date(year, month, 0));
+    const baseDate = new Date(baseYear, month, 1);
+    const daysInMonth = getDaysInMonth(baseDate);
+    const firstDay = getDay(baseDate);
 
-    for (let i = 0; i < firstDay; i++) {
+    for (let i = 0; i < firstDay - 1; i++) {
       children.push(<BlankDay key={i} />);
     }
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dayTasks = tasksMap.get([year, month, day].join('-'));
-      const date = new Date(year, month, day);
+    for (let day = 0; day < daysInMonth; day++) {
+      const date = addDays(baseDate, day);
+      const dayTasks = tasksMap.get(
+        [date.getYear(), date.getMonth(), day + 1].join("-")
+      );
 
       children.push(
-        <CalendarDay key={date} day={day} date={date} tasks={dayTasks} />
+        <CalendarDay key={date} day={day + 1} date={date} tasks={dayTasks} />
       );
     }
     return children;
   };
 
   return (
-    <CalendarWrapper isMobile={isMobile}>
+    <CalendarWrapper>
       <CalendarHeader
-        month={format(new Date(year, month), 'MMMM yyyy')}
+        month={format(new Date(baseYear, month), "MMMM yyyy")}
         nextMonth={() => setMonth(month + 1)}
         prevMonth={() => setMonth(month - 1)}
       />
-      <CalendarMain isMobile={isMobile}>
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+      <CalendarMain>
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
           <DayHeader key={day}>{day}</DayHeader>
         ))}
         {getCalendarEntries()}

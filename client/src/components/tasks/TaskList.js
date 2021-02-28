@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
-import Task from './Task';
-import filterTasks from '../../helpers/filters';
-import { useMediaQuery } from 'react-responsive';
-import { endOfToday, isToday, parseISO, startOfTomorrow } from 'date-fns';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '../shared';
-import styled from 'styled-components';
-import { newTaskWithDate, toggleSidebar } from '../../actions/sidebar';
-import FilterMenu from './FilterMenu';
+import React, { useMemo } from "react";
+import Task from "./Task";
+import filterTasks from "../../helpers/filters";
+import { useMediaQuery } from "react-responsive";
+import { endOfToday, isToday, parseISO, startOfTomorrow } from "date-fns";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "../shared";
+import styled from "styled-components";
+import { newTaskWithDate, toggleSidebar } from "../../actions/sidebar";
+import FilterMenu from "./FilterMenu";
 
 const ListWrapper = styled.div`
   margin: 0 auto;
-  max-width: ${props => (props.isMobile ? '100%' : '60%')};
+  max-width: ${(props) => (props.isMobile ? "100%" : "60%")};
 
   h3 {
     font-size: 1.4em;
@@ -36,21 +36,27 @@ const AddTaskBtn = styled(Button)`
 const FolderIcon = styled.i`
   font-size: 1.8em;
   color: #9c9c9c;
-  visibility: ${props => (props.breakpoint ? 'visible' : 'hidden')};
+  visibility: ${(props) => (props.breakpoint ? "visible" : "hidden")};
   cursor: pointer;
 `;
 
 const TaskList = () => {
-  const tasks = useSelector(state => filterTasks(state.tasks, state.filters));
+  const tasks = useSelector((state) => filterTasks(state.tasks, state.filters));
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 600 });
   const folderBreakpoint = useMediaQuery({ maxWidth: 1450 });
   const todayTasks = useMemo(
-    () => tasks.filter(task => isToday(parseISO(task.dueDate))),
+    () =>
+      tasks
+        .filter((task) => isToday(parseISO(task.dueDate)))
+        .sort((a, b) => a.dueDate > b.dueDate),
     [tasks]
   );
   const futureTasks = useMemo(
-    () => tasks.filter(task => parseISO(task.dueDate) > startOfTomorrow()),
+    () =>
+      tasks
+        .filter((task) => parseISO(task.dueDate) > startOfTomorrow())
+        .sort((a, b) => a.dueDate > b.dueDate),
     [tasks]
   );
 
@@ -71,16 +77,16 @@ const TaskList = () => {
       </Controls>
       <h3>Today</h3>
       {todayTasks.length === 0 && (
-        <p style={{ margin: '1rem 2rem' }}>All clear!</p>
+        <p style={{ margin: "1rem 2rem" }}>All clear!</p>
       )}
       <ul>
-        {todayTasks.map(task => (
+        {todayTasks.map((task) => (
           <Task key={task._id} task={task} />
         ))}
       </ul>
       <h3>Upcoming</h3>
       <ul>
-        {futureTasks.map(task => (
+        {futureTasks.map((task) => (
           <Task key={task._id} task={task} />
         ))}
       </ul>
