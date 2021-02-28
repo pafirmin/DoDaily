@@ -9,7 +9,7 @@ const CalendarWrapper = styled.div`
   width: 70%;
   margin: 2rem auto;
 
-  @media (maxwidth: 800px) {
+  @media (max-width: 800px) {
     width: 100%;
   }
 `;
@@ -40,7 +40,7 @@ const DayHeader = styled.div`
 
 const Calendar = () => {
   const today = new Date();
-  const baseYear = today.getYear();
+  const baseYear = today.getFullYear();
   const tasks = useSelector((state) => state.tasks);
   const [month, setMonth] = useState(today.getMonth());
 
@@ -49,7 +49,9 @@ const Calendar = () => {
 
     tasks.forEach((task) => {
       const date = parseISO(task.dueDate);
-      const key = [date.getYear(), date.getMonth(), date.getDate()].join("-");
+      const key = [date.getFullYear(), date.getMonth(), date.getDate()].join(
+        "-"
+      );
 
       if (map.has(key)) {
         map.get(key).push(task);
@@ -72,7 +74,7 @@ const Calendar = () => {
     for (let day = 0; day < daysInMonth; day++) {
       const date = addDays(baseDate, day);
       const dayTasks = tasksMap.get(
-        [date.getYear(), date.getMonth(), day + 1].join("-")
+        [date.getFullYear(), date.getMonth(), day + 1].join("-")
       );
 
       children.push(
