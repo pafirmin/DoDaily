@@ -9,7 +9,7 @@ const CalendarWrapper = styled.div`
   width: 70%;
   margin: 2rem auto;
 
-  @media (max-width: 800px) {
+  @media (maxwidth: 800px) {
     width: 100%;
   }
 `;
