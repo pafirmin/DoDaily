@@ -29,7 +29,6 @@ const SignupForm = () => {
   return (
     <AuthPageWrapper>
       <AuthFormWrapper isMobile={isMobile}>
-        <h2>Sign up</h2>
         <div style={{ textAlign: "center", marginTop: ".8rem" }}>
           <p>
             Already have an account?

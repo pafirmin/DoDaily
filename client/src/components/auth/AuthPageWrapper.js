@@ -3,8 +3,8 @@ import styled from "styled-components";
 import WelcomeHero from "./WelcomeHero";
 
 const Container = styled.div`
-  width: 100vw;
-  height: ${(props) => `calc(100vh - ${props.theme.headerHeight})`};
+  width: 100%;
+  min-height: ${(props) => `calc(100vh - ${props.theme.headerHeight})`};
   background-color: ${(props) => props.theme.primaryColour};
   padding-top: 2rem;
   position: relative;
