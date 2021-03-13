@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import LoginForm from "./components/auth/login-form/LoginForm";
+import LandingPage from "./components/landing-page/LandingPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignupForm from "./components/auth/signup-form/SignupForm";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,9 +31,10 @@ const App = () => {
             <Route
               exact
               path="/"
-              component={isAuthenticated ? MainWrapper : LoginForm}
+              component={isAuthenticated ? MainWrapper : LandingPage}
             />
             <Route path="/createaccount" component={SignupForm} />
+            <Route path="/login" component={LoginForm} />
           </Switch>
         </ThemeProvider>
       </Router>

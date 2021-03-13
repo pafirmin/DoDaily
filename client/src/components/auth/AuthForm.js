@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const AuthForm = styled.form`
   display: flex;
@@ -13,7 +13,7 @@ const AuthForm = styled.form`
     border: 1px solid #c3c3c3;
     width: 100%;
     padding: 0.4rem;
-    margin-top: 0.3rem;
+    margin-top: 0.6rem;
     font-size: 1em;
 
     &::placeholder {

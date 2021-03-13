@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../actions/auth";
 
@@ -17,7 +18,7 @@ const MainHeader = styled.header`
 `;
 MainHeader.displayName = "MainHeader";
 
-const MainTitle = styled.h1`
+const MainTitle = styled.span`
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 2rem;
 `;
@@ -29,7 +30,9 @@ const Header = () => {
 
   return (
     <MainHeader>
-      <MainTitle>DoDaily</MainTitle>
+      <MainTitle>
+        <Link to="/">DoDaily</Link>
+      </MainTitle>
       {isAuthenticated && (
         <button onClick={() => dispatch(logout())}>Sign out {username}</button>
       )}

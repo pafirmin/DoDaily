@@ -33,7 +33,7 @@ const SignupForm = () => {
           <p>
             Already have an account?
             <p style={{ textDecoration: "underline" }}>
-              <Link to="/">Return home to login</Link>
+              <Link to="/login">Click here to log in</Link>
             </p>
           </p>
         </div>

@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import WelcomeHero from "./WelcomeHero";
 
@@ -15,6 +17,12 @@ const Container = styled.div`
 `;
 
 const AuthPageWrapper = ({ children }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <Container>
       <WelcomeHero />
