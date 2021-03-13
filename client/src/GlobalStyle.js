@@ -67,6 +67,7 @@ button:active {
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 a:visited {
   font: inherit;
