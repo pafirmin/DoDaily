@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const mongoURI = `mongodb+srv://dev:${process.env.MONGO_PASS}@cluster0.h2leh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const mongoURI = `mongodb+srv://paul:${process.env.MONGO_PASS}@cluster0.h2leh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const connectDB = async (): Promise<void> => {
   try {
