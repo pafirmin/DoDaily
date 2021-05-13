@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -67,6 +67,7 @@ button:active {
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 a:visited {
   font: inherit;
@@ -85,9 +86,9 @@ h2 {
 `;
 
 export const MainTheme = {
-  headerHeight: '70px',
-  primaryColour: '#672a6c',
-  secondaryColour: '#5e6aaa',
+  headerHeight: "70px",
+  primaryColour: "#672a6c",
+  secondaryColour: "#5e6aaa",
 };
 
 export default GlobalStyle;

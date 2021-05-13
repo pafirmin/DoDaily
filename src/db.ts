@@ -1,19 +1,22 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const mongoURI: string = `mongodb+srv://paul:${process.env.MONGO_PASS}@cluster0.h2leh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const mongoURI = `mongodb+srv://dev:${process.env.MONGO_PASS}@cluster0.h2leh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-const connectDB = async () => {
+const connectDB = async (): Promise<void> => {
   try {
-    mongoose.connect(mongoURI, {
+    console.log(mongoURI);
+    await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
 
-    console.log('MongoDB connected');
+    console.log("MongoDB connected");
+
+    return;
   } catch (err) {
     console.error(err);
     process.exit(1);
