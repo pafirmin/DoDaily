@@ -21,11 +21,12 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
-connectDB();
+void connectDB();
 
 app.use("/api/auth", AuthRouter);
 app.use("/api/users", UserRouter);

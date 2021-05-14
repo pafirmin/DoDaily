@@ -58,7 +58,7 @@ const CalendarTasks = () => {
           ))}
         </ul>
       ) : (
-        <p style={{ textAlign: 'center' }}>All clear!</p>
+        <p style={{ textAlign: "center" }}>All clear!</p>
       )}
     </SlideOut>
   );

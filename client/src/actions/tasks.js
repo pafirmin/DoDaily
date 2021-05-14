@@ -12,10 +12,10 @@ import {
   CHANGE_PRIORITY,
 } from './types';
 
-export const newTask = (task, folder) => async dispatch => {
+export const newTask = (task) => async dispatch => {
   try {
     const body = JSON.stringify(task);
-    const res = await axios.post(`/api/tasks/${folder._id}`, body);
+    const res = await axios.post(`/api/tasks/${task.folder}`, body);
 
     dispatch({
       type: NEW_TASK,

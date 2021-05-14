@@ -4,11 +4,12 @@ import {
   RENAME_FOLDER,
   DELETE_FOLDER,
   SET_FOLDER,
-} from '../../actions/types';
+} from "../../actions/types";
 
 const initialState = {
-  currentFolder: 'SUMMARY',
+  currentFolder: "SUMMARY",
   folders: [],
+  isLoading: true,
 };
 
 const folderReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const folderReducer = (state = initialState, action) => {
       return {
         currentFolder: data[0],
         folders: data,
+        loading: false,
       };
     case NEW_FOLDER:
       return {
@@ -32,14 +34,16 @@ const folderReducer = (state = initialState, action) => {
     case RENAME_FOLDER:
       return {
         ...state,
-        folders: state.folders.map(folder =>
+        folders: state.folders.map((folder) =>
           folder._id === data._id ? { ...folder, name: data.name } : folder
         ),
       };
     case DELETE_FOLDER:
       return {
         ...state,
-        folders: state.folders.filter(folder => folder._id !== action.data._id),
+        folders: state.folders.filter(
+          (folder) => folder._id !== action.data._id
+        ),
       };
     default:
       return state;

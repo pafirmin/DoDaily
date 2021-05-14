@@ -9,14 +9,13 @@ const CalendarWrapper = styled.div`
   width: 70%;
   margin: 2rem auto;
 
-  @media (maxwidth: 800px) {
+  @media (max-width: 800px) {
     width: 100%;
   }
 `;
 
 const CalendarMain = styled.div`
   display: grid;
-  width: 100%;
   margin-top: 2rem;
   gap: 0.3rem;
   grid-template-columns: repeat(7, 1fr);

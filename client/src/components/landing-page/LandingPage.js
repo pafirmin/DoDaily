@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { guestLogin } from "../../actions/auth";
+import { Button } from "../shared";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import mockup from "../../assets/dodailymockup.png";
@@ -35,7 +38,7 @@ const MockUp = styled.figure`
 const WelcomeText = styled.div`
   font-family: "Montserrat Alternates", sans-serif;
   width: 30%;
-  font-size: 2rem;
+  font-size: 2em;
 
   h1 {
     font-size: 2em;
@@ -56,6 +59,12 @@ const UserLink = styled(Link)`
 `;
 
 const LandingPage = () => {
+  const dispatch = useDispatch();
+
+  const handleGuest = () => {
+    dispatch(guestLogin());
+  };
+
   return (
     <Container>
       <WelcomeText>
@@ -70,6 +79,9 @@ const LandingPage = () => {
         <div style={{ marginTop: "2rem" }}>
           <UserLink to="/createaccount">Get started</UserLink>
           <UserLink to="/login">Sign In</UserLink>
+          <Button type="button" onClick={handleGuest}>
+            Guest login
+          </Button>
         </div>
       </WelcomeText>
       <MockUp>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import styled from 'styled-components';
-import { Button, TextInput, TextArea, SlideOut } from '../shared';
-import { useDispatch, useSelector } from 'react-redux';
-import { newTask } from '../../actions/tasks';
-import { hideSidebar, setDate } from '../../actions/sidebar';
-import DatePicker from 'react-datepicker';
-import { isSameMinute, endOfToday, endOfTomorrow, subDays } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import styled from "styled-components";
+import { Button, TextInput, TextArea, SlideOut } from "../shared";
+import { useDispatch, useSelector } from "react-redux";
+import { newTask } from "../../actions/tasks";
+import { hideSidebar, setDate } from "../../actions/sidebar";
+import DatePicker from "react-datepicker";
+import { isSameMinute, endOfToday, endOfTomorrow, subDays } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
 
 const NewTaskForm = styled.form`
   width: 100%;
@@ -25,14 +25,14 @@ const NewTaskForm = styled.form`
     width: 100%;
   }
 `;
-NewTaskForm.displayName = 'new-task-form';
+NewTaskForm.displayName = "new-task-form";
 
 const SelectButton = styled.button`
   border-radius: 6px;
   flex: 1;
   padding: 0.3rem;
-  background-color: ${props => (props.isSelected ? '#6f99b5' : '#f1f1f1')};
-  color: ${props => (props.isSelected ? '#fff' : '#000')};
+  background-color: ${(props) => (props.isSelected ? "#6f99b5" : "#f1f1f1")};
+  color: ${(props) => (props.isSelected ? "#fff" : "#000")};
   transition: color, background-color 0.3s;
 
   + * {
@@ -49,12 +49,13 @@ const NewTask = () => {
   const SIDEBAR_ID = 1;
   const titleInputRef = useRef(null);
   const dispatch = useDispatch();
-  const { folders, currentFolder } = useSelector(state => state.folders);
-  const { show, date } = useSelector(state => state.sidebar);
+  const { folders, currentFolder } = useSelector((state) => state.folders);
+  const { show, date } = useSelector((state) => state.sidebar);
   const [taskValues, setTaskValues] = useState({
-    title: '',
-    description: '',
-    priority: 'LOW',
+    title: "",
+    description: "",
+    priority: "LOW",
+    folder: "",
   });
   const today = useMemo(() => endOfToday(), [show]);
   const tomorrow = useMemo(() => endOfTomorrow(), [show]);
@@ -63,13 +64,23 @@ const NewTask = () => {
     show === SIDEBAR_ID && titleInputRef.current.focus();
   }, [show]);
 
-  const handleSubmit = e => {
+  useEffect(() => {
+    setTaskValues({
+      ...taskValues,
+      folder:
+        currentFolder === "SUMMARY"
+          ? folders.find((folder) => folder.isDefault)._id
+          : currentFolder._id,
+    });
+  }, [folders, currentFolder]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(newTask({ ...taskValues, dueDate: date }, currentFolder));
+    dispatch(newTask({ ...taskValues, dueDate: date }));
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setTaskValues({
       ...taskValues,
       [e.target.name]: e.target.value,
@@ -81,14 +92,14 @@ const NewTask = () => {
       <NewTaskForm onSubmit={handleSubmit}>
         <header
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <h2>New task</h2>
           <i
-            style={{ fontSize: '2em', cursor: 'pointer', color: '#a7a7a7' }}
+            style={{ fontSize: "2em", cursor: "pointer", color: "#a7a7a7" }}
             aria-label="Close menu"
             className="fas fa-times"
             onClick={() => dispatch(hideSidebar())}
@@ -122,7 +133,7 @@ const NewTask = () => {
               type="button"
               name="priority"
               value="LOW"
-              isSelected={taskValues.priority === 'LOW'}
+              isSelected={taskValues.priority === "LOW"}
               onClick={handleChange}
             >
               Low
@@ -131,7 +142,7 @@ const NewTask = () => {
               type="button"
               name="priority"
               value="MEDIUM"
-              isSelected={taskValues.priority === 'MEDIUM'}
+              isSelected={taskValues.priority === "MEDIUM"}
               onClick={handleChange}
             >
               Medium
@@ -140,7 +151,7 @@ const NewTask = () => {
               type="button"
               name="priority"
               value="HIGH"
-              isSelected={taskValues.priority === 'HIGH'}
+              isSelected={taskValues.priority === "HIGH"}
               onClick={handleChange}
             >
               High
@@ -150,17 +161,19 @@ const NewTask = () => {
         <label htmlFor="folder">
           <p>Folder</p>
           <select
-            value={currentFolder?._id || folders[0]?._id}
-            style={{ width: '100%' }}
+            value={taskValues.folder}
+            name="folder"
+            onChange={handleChange}
+            style={{ width: "100%" }}
           >
-            {folders.map(folder => (
+            {folders.map((folder) => (
               <option key={folder._id} value={folder._id}>
                 {folder.name}
               </option>
             ))}
           </select>
         </label>
-        <label style={{ width: '100%' }}>
+        <label style={{ width: "100%" }}>
           <p>When?</p>
           <ButtonGroup>
             <SelectButton
@@ -183,7 +196,7 @@ const NewTask = () => {
           className="date-picker"
           selected={date}
           showTimeSelect
-          onChange={val => dispatch(setDate(val))}
+          onChange={(val) => dispatch(setDate(val))}
           dateFormat="MMMM d, yyyy h:mm aa"
           minDate={subDays(new Date(), 0)}
           popperPlacement="bottom-end"

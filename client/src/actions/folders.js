@@ -1,14 +1,14 @@
-import axios from '../axios';
+import axios from "../axios";
 import {
   SET_FOLDER,
   GET_FOLDERS,
   NEW_FOLDER,
   RENAME_FOLDER,
   DELETE_FOLDER,
-} from '../actions/types';
-import { hideSidebar } from './sidebar';
+} from "../actions/types";
+import { hideSidebar } from "./sidebar";
 
-export const setCurrentFolder = folder => dispatch => {
+export const setCurrentFolder = (folder) => (dispatch) => {
   dispatch(hideSidebar());
   dispatch({
     type: SET_FOLDER,
@@ -16,10 +16,10 @@ export const setCurrentFolder = folder => dispatch => {
   });
 };
 
-export const newFolder = folderData => async dispatch => {
+export const newFolder = (folderData) => async (dispatch) => {
   try {
     const body = JSON.stringify(folderData);
-    const res = await axios.post('/api/folders', body);
+    const res = await axios.post("/api/folders", body);
 
     dispatch({
       type: NEW_FOLDER,
@@ -27,11 +27,11 @@ export const newFolder = folderData => async dispatch => {
     });
   } catch (err) {
     const msg = err.data.error.msg;
-    dispatch({ type: 'ERROR', data: msg });
+    dispatch({ type: "ERROR", data: msg });
   }
 };
 
-export const deleteFolder = folder => async dispatch => {
+export const deleteFolder = (folder) => async (dispatch) => {
   try {
     await axios.delete(`/api/folders/${folder._id}`);
 
@@ -41,13 +41,13 @@ export const deleteFolder = folder => async dispatch => {
   } catch (err) {
     console.error(err);
     const msg = err.data.error.msg;
-    dispatch({ type: 'ERROR', data: msg });
+    dispatch({ type: "ERROR", data: msg });
   }
 };
 
-export const getFolders = () => async dispatch => {
+export const getFolders = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/folders');
+    const res = await axios.get("/api/folders");
 
     dispatch({
       type: GET_FOLDERS,
@@ -56,11 +56,11 @@ export const getFolders = () => async dispatch => {
   } catch (err) {
     console.error(err);
     const msg = err.data.error.msg;
-    dispatch({ type: 'ERROR', data: msg });
+    dispatch({ type: "ERROR", data: msg });
   }
 };
 
-export const renameFolder = (newName, folder) => async dispatch => {
+export const renameFolder = (newName, folder) => async (dispatch) => {
   try {
     const body = JSON.stringify({ name: newName });
     const res = await axios.patch(`/api/folders/${folder._id}`, body);
@@ -72,6 +72,6 @@ export const renameFolder = (newName, folder) => async dispatch => {
   } catch (err) {
     console.error(err);
     const msg = err.data.error.msg;
-    dispatch({ type: 'ERROR', data: msg });
+    dispatch({ type: "ERROR", data: msg });
   }
 };
