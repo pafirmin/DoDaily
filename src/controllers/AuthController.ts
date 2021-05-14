@@ -65,7 +65,7 @@ const logIn = [
 
 const guestLogin = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const user = await User.findOne({ email: "test6@test.com" });
+    const user = await User.findOne({ email: "guest@dodaily.com" });
 
     if (!user) {
       res.status(400).json([{ msg: "No user found with that email address" }]);

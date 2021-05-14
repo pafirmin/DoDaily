@@ -22,7 +22,7 @@ const folderReducer = (state = initialState, action) => {
       };
     case GET_FOLDERS:
       return {
-        currentFolder: data[0],
+        currentFolder: data.find((folder) => folder.isDefault),
         folders: data,
         loading: false,
       };
