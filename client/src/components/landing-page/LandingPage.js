@@ -48,17 +48,18 @@ const WelcomeText = styled.div`
     text-align: center;
     width: 90%;
     margin: 0 auto;
+    font-size: 1.6em;
   }
 `;
 
 const UserLink = styled(Link)`
   background: ${(props) => props.theme.secondaryColour};
-  padding: 0.7rem;
+  padding: 0.7em;
   margin-right: 1rem;
 `;
 
 const GuestBtn = styled(Button)`
-  padding: 0.8rem;
+  padding: 0.8em;
   background: #40ca40;
   font-size: inherit;
 `;
@@ -81,7 +82,7 @@ const LandingPage = () => {
         <p>
           Organise like a pro across <br /> all your devices.
         </p>
-        <div style={{ marginTop: "2rem", fontSize: "1.2rem" }}>
+        <div style={{ marginTop: "2rem", fontSize: "1rem" }}>
           <UserLink to="/createaccount">Get started</UserLink>
           <UserLink to="/login">Sign In</UserLink>
           <GuestBtn type="button" onClick={handleGuest}>
