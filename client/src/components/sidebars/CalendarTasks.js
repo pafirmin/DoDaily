@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { endOfYesterday } from "date-fns";
 import { Button, SlideOut } from "../shared/";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,10 @@ import styled from "styled-components";
 const NewTaskBtn = styled(Button)`
   margin: 1rem auto;
   display: block;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 const Header = styled.header`
@@ -29,13 +33,22 @@ const Header = styled.header`
 const CalendarTasks = () => {
   const SIDEBAR_ID = 2;
   const dispatch = useDispatch();
-  const { date, show } = useSelector((state) => state.sidebar);
+  const { date, activeSidebar } = useSelector((state) => state.sidebar);
   const tasks = useSelector((state) =>
     state.tasks.filter((task) => isSameDay(parseISO(task.dueDate), date))
   );
+  const isExpired = useMemo(() => date < endOfYesterday(), [date]);
+
+  const getNoTasksText = () => {
+    if (isExpired) {
+      return "There were no tasks on this day";
+    } else {
+      return "All clear!";
+    }
+  };
 
   return (
-    <SlideOut show={show === SIDEBAR_ID}>
+    <SlideOut show={activeSidebar === SIDEBAR_ID}>
       <Header>
         <h2>Tasks for {format(date, "do MMMM")}</h2>
         <i
@@ -46,7 +59,7 @@ const CalendarTasks = () => {
         ></i>
       </Header>
       <NewTaskBtn
-        disabled={date < endOfYesterday()}
+        disabled={isExpired}
         onClick={() => dispatch(toggleSidebar(1))}
       >
         Add a task
@@ -58,7 +71,7 @@ const CalendarTasks = () => {
           ))}
         </ul>
       ) : (
-        <p style={{ textAlign: "center" }}>All clear!</p>
+        <p style={{ textAlign: "center" }}>{getNoTasksText()}</p>
       )}
     </SlideOut>
   );

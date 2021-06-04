@@ -50,19 +50,19 @@ const NewTask = () => {
   const titleInputRef = useRef(null);
   const dispatch = useDispatch();
   const { folders, currentFolder } = useSelector((state) => state.folders);
-  const { show, date } = useSelector((state) => state.sidebar);
+  const { activeSidebar, date } = useSelector((state) => state.sidebar);
   const [taskValues, setTaskValues] = useState({
     title: "",
     description: "",
     priority: "LOW",
     folder: "",
   });
-  const today = useMemo(() => endOfToday(), [show]);
-  const tomorrow = useMemo(() => endOfTomorrow(), [show]);
+  const today = useMemo(() => endOfToday(), [activeSidebar]);
+  const tomorrow = useMemo(() => endOfTomorrow(), [activeSidebar]);
 
   useEffect(() => {
-    show === SIDEBAR_ID && titleInputRef.current.focus();
-  }, [show]);
+    activeSidebar === SIDEBAR_ID && titleInputRef.current.focus();
+  }, [activeSidebar]);
 
   useEffect(() => {
     setTaskValues({
@@ -88,7 +88,7 @@ const NewTask = () => {
   };
 
   return (
-    <SlideOut show={show === SIDEBAR_ID}>
+    <SlideOut show={activeSidebar === SIDEBAR_ID}>
       <NewTaskForm onSubmit={handleSubmit}>
         <header
           style={{
@@ -195,7 +195,7 @@ const NewTask = () => {
         <DatePicker
           className="date-picker"
           selected={date}
-          showTimeSelect
+          activeSidebarTimeSelect
           onChange={(val) => dispatch(setDate(val))}
           dateFormat="MMMM d, yyyy h:mm aa"
           minDate={subDays(new Date(), 0)}

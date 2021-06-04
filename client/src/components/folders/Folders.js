@@ -35,13 +35,13 @@ const FolderList = ({ folders }) => {
   const isMobile = useMediaQuery({ maxWidth: 600 });
   const [showForm, setShowForm] = useState(false);
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.sidebar.show);
+  const activeSidebar = useSelector((state) => state.sidebar.show);
   const currentFolder = useSelector((state) => state.folders.currentFolder);
 
   return (
     <SideBar
       isMobile={isMobile}
-      show={show === SIDEBAR_ID}
+      show={activeSidebar === SIDEBAR_ID}
       breakpoint={breakpoint}
     >
       <header
